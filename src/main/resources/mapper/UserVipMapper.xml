@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.UserVipMapper">
+  <resultMap id="BaseResultMap" type="com.example.peach.pojo.UserVip">
+  <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vip_grade" jdbcType="INTEGER" property="vipGrade" />
+    <result column="vip_appointment" jdbcType="INTEGER" property="vipAppointment" />
+    <result column="vip_createtime" jdbcType="TIMESTAMP" property="vipCreatetime" />
+    <result column="vip_endtime" jdbcType="TIMESTAMP" property="vipEndtime" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_wallet" jdbcType="DECIMAL" property="userWallet" />
+    <result column="user_deposit" jdbcType="DECIMAL" property="userDeposit" />
+    <result column="user_free" jdbcType="BIT" property="userFree" />
+</resultMap>
+  <resultMap id="UserVipandUser" type="com.example.peach.pojo.merge.UvipUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vip_grade" jdbcType="INTEGER" property="vipGrade" />
+    <result column="vip_appointment" jdbcType="INTEGER" property="vipAppointment" />
+    <result column="vip_createtime" jdbcType="TIMESTAMP" property="vipCreatetime" />
+    <result column="vip_endtime" jdbcType="TIMESTAMP" property="vipEndtime" />
+    <result column="user_wallet" jdbcType="DECIMAL" property="userWallet" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_deposit" jdbcType="DECIMAL" property="userDeposit" />
+    <result column="user_free" jdbcType="BIT" property="userFree" />
+    <collection property="user" column="user_id" ofType="com.example.peach.pojo.User">
+       <id column="user_id" jdbcType="INTEGER" property="id" />
+        <result column="user_nickname" jdbcType="VARCHAR" property="nickName" />
+        <result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+          <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+          <result column="user_phone" jdbcType="VARCHAR" property="userphone" />
+          <result column="user_age" jdbcType="INTEGER" property="userage" />
+          <result column="sex" jdbcType="INTEGER" property="gender" />
+          <result column="country" jdbcType="VARCHAR" property="country" />
+          <result column="province" jdbcType="VARCHAR" property="province" />
+          <result column="city" jdbcType="VARCHAR" property="city" />
+          <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+          <result column="user_autograph" jdbcType="VARCHAR" property="userAutograph" />
+          <result column="user_occupation" jdbcType="VARCHAR" property="userOccupation" />
+          <result column="is_marriage" jdbcType="BIT" property="isMarriage" />
+          <result column="user_height" jdbcType="INTEGER" property="userHeight" />
+          <result column="user_education" jdbcType="VARCHAR" property="userEducation" />
+          <result column="user_salary" jdbcType="VARCHAR" property="userSalary" />
+          <result column="user_interest" jdbcType="VARCHAR" property="userInterest" />
+          <result column="user_label" jdbcType="VARCHAR" property="userLabel" />
+          <result column="user_jurisdiction" jdbcType="INTEGER" property="userJurisdiction" />
+          <result column="user_idcard" jdbcType="CHAR" property="userIdcard" />
+          <result column="headimgurl" jdbcType="VARCHAR" property="avatarUrl" />
+          <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
+          <result column="openid" jdbcType="VARCHAR" property="openid" />
+          <result column="is_realname" jdbcType="BIT" property="isrealname" />
+          <result column="user_native" jdbcType="VARCHAR" property="usernative" />
+          <result column="unionid" jdbcType="VARCHAR" property="unionid" />
+          <result column="user_marrytime" jdbcType="VARCHAR" property="userMarrytime" />
+          <result column="user_newold" jdbcType="BIT" property="userNewold" />
+          <result column="user_tips" jdbcType="BIT" property="userTips" />
+        <result column="user_house" jdbcType="INTEGER" property="userHouse" />
+        <result column="user_car" jdbcType="INTEGER" property="userCar" />
+        <result column="user_praise" jdbcType="INTEGER" property="userPraise" />
+      <result column="user_blacklist" jdbcType="INTEGER" property="userBlacklist" />
+      <result column="user_createtime" property="userCreatetime"/>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, vip_grade, vip_appointment, vip_createtime, vip_endtime, user_id, user_wallet,user_deposit,user_free
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_vip
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_vip
+    where user_id = #{useerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.peach.pojo.UserVip">
+    insert into user_vip (id, vip_grade, vip_appointment, 
+      vip_createtime, vip_endtime, user_id, 
+      user_wallet)
+    values (#{id,jdbcType=INTEGER}, #{vipGrade,jdbcType=INTEGER}, #{vipAppointment,jdbcType=INTEGER}, 
+      #{vipCreatetime,jdbcType=TIMESTAMP}, #{vipEndtime,jdbcType=TIMESTAMP}, #{userId,jdbcType=INTEGER}, 
+      #{userWallet,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.peach.pojo.UserVip">
+    insert into user_vip
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vipGrade != null">
+        vip_grade,
+      </if>
+      <if test="vipAppointment != null">
+        vip_appointment,
+      </if>
+      <if test="vipCreatetime != null">
+        vip_createtime,
+      </if>
+      <if test="vipEndtime != null">
+        vip_endtime,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userWallet != null">
+        user_wallet,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vipGrade != null">
+        #{vipGrade,jdbcType=INTEGER},
+      </if>
+      <if test="vipAppointment != null">
+        #{vipAppointment,jdbcType=INTEGER},
+      </if>
+      <if test="vipCreatetime != null">
+        #{vipCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipEndtime != null">
+        #{vipEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userWallet != null">
+        #{userWallet,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByid" parameterType="com.example.peach.pojo.UserVip">
+    update user_vip
+    <set>
+      <if test="vipGrade != null">
+        vip_grade = #{vipGrade,jdbcType=INTEGER},
+      </if>
+      <if test="vipAppointment != null">
+        vip_appointment = #{vipAppointment,jdbcType=INTEGER},
+      </if>
+      <if test="vipCreatetime != null">
+        vip_createtime = #{vipCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipEndtime != null">
+        vip_endtime = #{vipEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userWallet != null">
+        user_wallet = #{userWallet,jdbcType=DECIMAL},
+      </if>
+      <if test="userDeposit != null">
+        user_deposit = #{userDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="userFree != null">
+        user_free = #{userFree,jdbcType=BIT},
+      </if>
+    </set>
+    where id=#{id}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.peach.pojo.UserVip">
+    update user_vip
+    <set>
+      <if test="vipGrade != null">
+        vip_grade = #{vipGrade,jdbcType=INTEGER},
+      </if>
+      <if test="vipAppointment != null">
+        vip_appointment = #{vipAppointment,jdbcType=INTEGER},
+      </if>
+      <if test="vipCreatetime != null">
+        vip_createtime = #{vipCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipEndtime != null">
+        vip_endtime = #{vipEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userWallet != null">
+        user_wallet = #{userWallet,jdbcType=DECIMAL},
+      </if>
+      <if test="userDeposit != null">
+        user_deposit = #{userDeposit,jdbcType=DECIMAL},
+      </if>
+      <if test="userFree != null">
+        user_free = #{userFree,jdbcType=BIT},
+      </if>
+    </set>
+    where user_id=#{userId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.peach.pojo.UserVip">
+    update user_vip
+    set vip_grade = #{vipGrade,jdbcType=INTEGER},
+      vip_appointment = #{vipAppointment,jdbcType=INTEGER},
+      vip_createtime = #{vipCreatetime,jdbcType=TIMESTAMP},
+      vip_endtime = #{vipEndtime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_wallet = #{userWallet,jdbcType=DECIMAL},
+      user_deposit = #{userDeposit,jdbcType=DECIMAL},
+      user_free = #{userFree,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_vip
+    where user_id=#{userId}
+  </select>
+
+  <update id="updateByUserId" parameterType="com.example.peach.pojo.UserVip">
+    update user_vip
+    set vip_grade = #{vipGrade,jdbcType=INTEGER},
+      vip_appointment = #{vipAppointment,jdbcType=INTEGER},
+      vip_createtime = #{vipCreatetime,jdbcType=TIMESTAMP},
+      vip_endtime = #{vipEndtime,jdbcType=TIMESTAMP}
+      where user_id=#{userId}
+  </update>
+
+  <update id="updateAppiontmentByUserId" parameterType="com.example.peach.pojo.UserVip">
+     update user_vip
+    set
+      vip_appointment = #{vipAppointment,jdbcType=INTEGER}
+      where user_id=#{userId}
+  </update>
+
+  <update id="updateUMoneyByUserId" parameterType="com.example.peach.pojo.UserVip">
+    update user_vip
+    <set>
+    <if test="userDeposit != null">
+      user_deposit = #{userDeposit,jdbcType=DECIMAL},
+    </if>
+    <if test="userFree != null">
+      user_free = #{userFree,jdbcType=BIT},
+    </if>
+    </set>
+    where user_id=#{userId}
+  </update>
+  <select id="selectUvipUser" parameterType="com.example.peach.pojo.merge.UvipUser" resultMap="UserVipandUser">
+    select v.*,u.*
+    from user as u,user_vip as v
+    where u.id=#{userId} and u.id=v.user_id;
+  </select>
+  <select id="selectUvipUserByopenid" parameterType="com.example.peach.pojo.merge.UvipUser" resultMap="UserVipandUser">
+    select v.*,u.*
+    from user as u,user_vip as v
+    where u.openid=#{openid} and u.id=v.user_id;
+  </select>
+  <select id="selectAllUvipUser" parameterType="List" resultMap="UserVipandUser">
+    select v.*,u.*
+    from user as u,user_vip as v
+    where u.id=v.user_id;
+  </select>
+</mapper>

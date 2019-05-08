@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <!--jquery-->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!--bootstrap-->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--bootstrap-table-->
+    <script src="bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="bootstrap-table-master/src/bootstrap-table.css">
+    <!--时间选择器-->
+    <script src="js/moment-with-locales.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="js/jquery.form.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="page-header">
+        <h3>活动显示</h3>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" id="toobar" role="group" aria-label="...">
+                    <a href="page.html" class="btn btn-default" id="table_Id">
+                        <span class="glyphicon glyphicon-plus"></span>新增
+                    </a>
+                </div>
+                <table id="managertable" class="table table-hover text-center ">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改活动</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="formactivity" enctype="multipart/form-data">
+                    <input type="text" name="id" class="form-control content" id="id"
+                           style="display: none;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="actname" name="actname" placeholder="标题">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">内容标题:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="actcontentname" name="actcontentname" placeholder="内容标题">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动地点:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="actplace" name="actplace" placeholder="活动地点">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动费用:</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="cost" id="cost" class="form-control" placeholder="活动费用">
+                        </div>
+                        <label class="col-sm-2 control-label">活动押金:</label>
+                        <div class="col-sm-3">
+                            <input type="text" name="deposit" id="deposit" class="form-control" placeholder="活动押金">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动时间:</label>
+                        <div class='col-sm-3'>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' name="starttime" id="starttime" class="form-control" pattern="yyyy/mm/dd"/>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label">截止时间:</label>
+                        <div class='col-sm-3'>
+                            <div class='input-group date' id='datetimepicker2'>
+                                <input type='text' name="endtime" id="endtime" class="form-control" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片上传:</label>
+                        <input type="file" id="actimgurl" class="button bg-blue margin-left" name="file" accept="image/*" style="float:left;">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动规则:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="actrule" rows="8" name="actrule"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动内容:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="actcontent" rows="8" name="actcontent"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动要求:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="actnature" rows="8" name="actnature"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">邀请奖励描述:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" rows="3" id="actinvitation" name="actinvitation"></textarea>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript">
+    path="https://www.thy66.cn/pe/peach";
+    //添加
+    $(function () {
+        operate.operateInit();
+    });
+    var operate = {
+        operateInit: function () {
+            this.selectbootstrapTable();//创建table
+            this.EditViewById();//内容添加到模态里
+        },
+        selectbootstrapTable: function () {
+            //创建table
+            $("#managertable").bootstrapTable({
+                columns: [
+                    {
+                        field: 'id',
+                        title: '序号'
+                    },
+                    {
+                        field: 'actname',
+                        title: '活动标题'
+                    },
+                    {
+                        field: 'actcontentname',
+                        title: '活动内容标题'
+                    },
+                    {
+                        field: 'actimgurl',
+                        title: '活动图片',
+                        formatter:activityimg,
+                    },
+                    {
+                        field: 'actplace',
+                        title: '活动地点',
+                    },
+                    {
+                        field: 'acttime',
+                        title: '活动时间',
+                        sortable:true,
+
+                    },
+                    {
+                        field: 'actendtime',
+                        title: '活动截止时间'
+                    },
+                    {
+                        field: 'id',
+                        title: '操作',
+                        align: 'center',
+                        formatter: actionforxg,
+                    },
+                ],
+                method: 'GET',
+                url: path+'/mactivity/allactivity',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataField: "data",
+                dataType: "json",
+                toolbar: '#toobar',//工具列
+                striped: true,//隔行换色
+                cache: false,//禁用缓存
+                pagination: true,//启动分页
+                sidePagination: 'client',//分页方式
+                pageNumber: 1,//初始化table时显示的页码
+                pageSize: 7,//每页条目
+                showFooter: false,//是否显示列脚
+                showPaginationSwitch: true,//是否显示 数据条数选择框
+                sortable: true,//排序
+                sortOrder:"asc",
+                sortName : 'createTime',
+                sidePagination:"client",
+                search: true,//启用搜索
+                showColumns: true,//是否显示 内容列下拉框
+                showRefresh: true,//显示刷新按钮
+                idField: 'SystemCode',//key值栏位
+                clickToSelect: true,//点击选中checkbox
+                // singleSelect: true,//启用单行选中
+                //得到查询的参数
+                queryParams : function(params) {
+                    return {
+                        limit : params.limit,
+                        offset : params.offset,
+                        sort : params.sort,
+                        order : params.order
+                    };
+                },
+                onDblClickRow: function (row) {
+                    window.location.href = 'activity_user.html?activityId='+row.id;
+                },
+
+            });
+        },
+        //修改
+        EditViewById:function () {
+            $("#myModal").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);  //当前模态框
+                var modalId = btnThis.data('id');   //解析出data-id的内容
+                $.ajax({
+                    type: "get",
+                    dataType: 'JSON',
+                    url: path+"/activity/getactivity",
+                    data: {id:modalId},
+                    success: function (data) {
+                        if(data.status){
+                            var Date = data.data;
+                            for(var key in Date) {
+                                modal.find('#id').val(modalId);
+                                modal.find('#actname').val(Date[key].actname);
+                                modal.find('#actcontentname').val(Date[key].actcontentname);
+                                modal.find('#actplace').val(Date[key].actplace);
+                                modal.find('#actrule').val(Date[key].actrule);
+                                modal.find('#actcontent').val(Date[key].actcontent);
+                                modal.find('#actnature').val(Date[key].actnature);
+                                modal.find('#cost').val(Date[key].actcost);
+                                modal.find('#deposit').val(Date[key].actdeposit);
+                                modal.find('#actinvitation').val(Date[key].actinvitation);
+                                modal.find('#starttime').val(Date[key].acttime);
+                                modal.find('#endtime').val(Date[key].actendtime);
+                            }
+                        }else {
+                            alert(data.msg);
+                        }
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出现错误!!");
+                    }
+                });
+                //先解除绑定
+                $("#btn_submit").unbind('click');
+                $("#btn_submit").on('click',function () {
+                    alert($("input[name=id]").val());
+                    if(!pdpage()){
+                        return false;
+                    }
+                    $('#formactivity').ajaxSubmit({
+                        type: "post",
+                        dataType: 'JSON',
+                        processData:false,
+                        mimeType: 'multipart/form-data',
+                        url: path+"/mactivity/updateactivitys",
+                        data: $("#formactivity").serializeArray(),
+                        success: function (data) {
+                            if(data.status){
+                                alert(data.msg);
+                                $("#managertable").bootstrapTable('refresh');
+                            }else {
+                                alert(data.msg);
+                            }
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("出现错误!!");
+                        }
+                    });
+                });
+            });
+        },
+    }
+    //删除
+    function actDelete(id) {
+        var t = confirm("您确认要删除选中的内容吗？");
+        if (t == false) {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "post",
+                url: path+"/mactivity/deleteactivitys",
+                data: {"id": id},
+                success: function (data, status) {
+                    alert(data.msg);
+                    $("#managertable").bootstrapTable('refresh');
+                },
+                error: function () {
+                    alert("错误");
+                }
+            });
+        }
+    }
+
+    //操作栏的格式化
+    function actionforxg(value) {
+        var id = value;
+        var result = "";
+        result +="<div style=\"margin:auto 0;\">";
+        result += "<a class='btn btn-xs blue' title='编辑' data-toggle=\"modal\" data-target=\"#myModal\" data-id=\""+id+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
+        result += "<a class='btn btn-xs blue' title='删除' onclick=\"actDelete('" + id + "')\"><span class='glyphicon glyphicon-remove'></span></a>";
+        result +="</div>";
+        return result;
+    }
+
+    function activityimg(value) {
+        return "<img src=\""+value+"\" alt=\"\" class=\"activityimg\">";
+    }
+    function pdpage(){
+        if($("input[name=actname]").val()==null || $("input[name=actname]").val()==""){
+            alert("标题不能为空");
+            return false;
+        }
+        if($("input[name=actcontentname]").val()==$("input[name=actcontentname]").val()==""){
+            alert("内容标题不能为空");
+            return false;
+        }
+        if($("input[name=actplace]").val()==$("input[name=actplace]").val()==""){
+            alert("活动地点不能为空");
+            return false;
+        }
+        if($("input[name=cost]").val()==null || $("input[name=cost]").val()==""){
+            alert("活动费用不能为空");
+            return false;
+        }
+        if($("input[name=deposit]").val()==null || $("input[name=deposit]").val()==""){
+            alert("活动押金不能为空");
+            return false;
+        }
+        if($("input[name=starttime]").val()==null || $("input[name=starttime]").val()==""){
+            alert("活动时间不能为空");
+            return false;
+        }
+        if($("input[name=endtime]").val()==null || $("input[name=endtime]").val()==""){
+            alert("截止时间不能为空");
+            return false;
+        }
+        if($("input[name=file]").val()==null || $("input[name=file]").val()==""){
+            alert("图片不能为空");
+            return false;
+        }
+        return true;
+    }
+    //日期选择
+    $('#datetimepicker1').datetimepicker({
+        locale : moment().locale('zh-cn')
+    });
+    $('#datetimepicker2').datetimepicker({
+        locale : moment().locale('zh-cn')
+    });
+</script>
+
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <!--jquery-->
+    <script src="js/jquery.js"></script>
+    <!--bootstrap-->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--bootstrap-table-->
+    <script src="bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="bootstrap-table-master/src/bootstrap-table.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="page-header">
+        <h3>管理员管理</h3>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" id="toobar" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" id="table_Id" data-toggle='modal'
+                            data-target='#myModal'>
+                        <span class="glyphicon glyphicon-plus"></span>新增
+                    </button>
+                </div>
+                <table id="managertable" class="table table-hover text-center ">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加管理</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formTest" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账号</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="account" class="form-control"  placeholder="账号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" name="password" class="form-control" placeholder="密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nikeName" class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nikeName" class="form-control" placeholder="姓名">
+                        </div>
+                    </div>
+                    <div class="form-group dropdown">
+                        <label class="col-sm-3 control-label">是否超级管理</label>
+                        <div class="form-group">
+                            <select name="isSuper" class="btn btn-default dropdown-toggle">
+                                <option>否</option>
+                                <option>是</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                    </button>
+                </div>
+            </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="upModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabe2">修改管理员</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formupdate" method="post"  class="form-horizontal">
+                    <input type="text" name="id" class="form-control content" id="id" placeholder="id"
+                           style="display: none;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">账号</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="account" class="form-control" id="account" placeholder="账号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nikeName" class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nikeName" class="form-control" id="nikeName" placeholder="姓名">
+                        </div>
+                    </div>
+                    <div class="form-group dropdown">
+                        <label class="col-sm-3 control-label">是否超级管理</label>
+                        <div class="form-group">
+                            <select name="isSuper" id="isSuper" class="btn btn-default dropdown-toggle">
+                                <option>否</option>
+                                <option>是</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group dropdown">
+                        <label class="col-sm-3 control-label">是否禁用</label>
+                        <div class="form-group">
+                            <select name="isProhibit" id="isProhibit" class="btn btn-default dropdown-toggle">
+                                <option>否</option>
+                                <option>是</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="update_submit" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    path="https://www.thy66.cn/pe/peach";
+    //添加
+    $(function () {
+        $.ajax({
+            type: "GET",
+            dataType: 'JSON',
+            url: path + "/admin/sessionVerification",
+            success: function (data) {
+                if(data.status){
+                    operate.operateInit();
+                }else{
+                    alert("您没有进行登录");
+                    window.location.href=path+"/login.html";
+                }
+            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("退出登录失败");
+                window.location.href = path + "/index.html";
+
+            }
+        });
+    });
+    var operate = {
+        operateInit: function () {
+            this.selectbootstrapTable();//创建table
+            this.operateSave();//添加
+            this.EditViewById();//内容添加到模态里
+        },
+        operateSave: function () {
+            $("#btn_submit").click(function () {
+                if(!pdpass()){
+                    return false;
+                }
+                $.ajax({
+                    type: "post",
+                    dataType: 'JSON',
+                    url:path+ "/admin/appendmanager",
+                    data: $("#formTest").serializeArray(),
+                    success: function (data) {
+                        if(data.status){
+                           $("#managertable").bootstrapTable('refresh');
+                        }
+                        alert(data.msg);
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出现错误!!");
+                    }
+                });
+            });
+        },
+        selectbootstrapTable: function () {
+            //创建table
+            $("#managertable").bootstrapTable({
+                columns: [
+                    {
+                        field: 'account',
+                        title: '账号'
+                    },
+                    {
+                        field: 'nikeName',
+                        title: '姓名'
+                    },
+                    {
+                        field: 'isSuper',
+                        title: '超级管理',
+                        formatter:pdtf,
+                    },
+                    {
+                        field: 'isProhibit',
+                        title: '禁用',
+                        formatter:pdtf,
+                    },
+                    {
+                        field: 'createTime',
+                        title: '创建时间'
+                    },
+                    {
+                        field: 'id',
+                        title: '操作',
+                        align: 'center',
+                        formatter: actionforxg,
+                    },
+
+                ],
+                method: 'GET',
+                url: path+'/admin/sadmin',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataField: "data",
+                dataType: "json",
+                toolbar: '#toobar',//工具列
+                striped: true,//隔行换色
+                cache: false,//禁用缓存
+                pagination: true,//启动分页
+                sidePagination: 'client',//分页方式
+                pageNumber: 1,//初始化table时显示的页码
+                pageSize: 4,//每页条目
+                showFooter: false,//是否显示列脚
+                showPaginationSwitch: true,//是否显示 数据条数选择框
+                sortable: true,//排序
+                sortOrder:"asc",
+                sortName : 'createTime',
+                sidePagination:"client",
+                search: true,//启用搜索
+                showColumns: true,//是否显示 内容列下拉框
+                showRefresh: true,//显示刷新按钮
+                idField: 'SystemCode',//key值栏位
+                clickToSelect: true,//点击选中checkbox
+                // singleSelect: true,//启用单行选中
+                //得到查询的参数
+                queryParams : function(params) {
+                    return {
+                        limit : params.limit,
+                        offset : params.offset,
+                        sort : params.sort,
+                        order : params.order
+                    };
+                },
+
+            });
+        },
+        EditViewById:function () {
+        $("#upModal").on('show.bs.modal', function (event) {
+            var btnThis = $(event.relatedTarget); //触发事件的按钮
+            var modal = $(this);  //当前模态框
+            var modalId = btnThis.data('id');   //解析出data-id的内容
+            modal.find('#id').val(modalId);
+            modal.find('#account').val(btnThis.closest('tr').find('td').eq(0).text());
+            modal.find('#nikeName').val(btnThis.closest('tr').find('td').eq(1).text());
+            modal.find('#isSuper').val(btnThis.closest('tr').find('td').eq(2).text());
+            modal.find('#isProhibit').val(btnThis.closest('tr').find('td').eq(3).text());
+            //先解除绑定
+            $("#update_submit").unbind('click');
+            $("#update_submit").on('click',function (e) {
+                // if(!pdpass()){
+                //     return false;
+                // }
+                $.ajax({
+                    type: "post",
+                    dataType: 'JSON',
+                    url: path+"/admin/updatemanager",
+                    data: $("#formupdate").serializeArray(),
+                    success: function (data) {
+                        if(data.status){
+                            alert(data.msg);
+                            e = window.event || e;
+                            if (e.stopPropagation) {
+                                e.stopPropagation();
+                            } else {
+                                e.cancelBubble = true;
+                            }
+                            $("#managertable").bootstrapTable('refresh');
+                        }else {
+                            alert(data.msg);
+                        }
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出现错误!!");
+                    }
+                });
+            });
+        });
+    },
+    }
+
+    //操作栏的格式化
+    function actionforxg(value, row, index) {
+        var id = value;
+        var result = "";
+        result += "<button class='btn btn-xs blue' title='编辑' data-toggle=\"modal\" data-target=\"#upModal\" data-id=\""+id+"\"><span class='glyphicon glyphicon-pencil'></span></button>";
+        return result;
+    }
+    //判断表格内容0,1
+    function pdtf(value){
+        if(value==1){
+            return "是";
+        }else{
+            return "否";
+        }
+    }
+
+
+    //请求成功方法
+    function responseHandler(result) {
+        var errcode = result.errcode;//在此做了错误代码的判断
+        if (errcode != 0) {
+            alert("错误代码" + errcode);
+            return;
+        }
+        //如果没有错误则返回数据，渲染表格
+        return {
+            // total : result.dataLength, //总页数,前面的key必须为"total"
+            data: result.data //行数据，前面的key要与之前设置的dataField的值一致.
+        };
+    };
+    function stopBubble(e) {
+        //如果提供了事件对象，则这是一个非IE浏览器
+        if ( e && e.stopPropagation )
+        //因此它支持W3C的stopPropagation()方法
+            e.stopPropagation();
+        else
+        //否则，我们需要使用IE的方式来取消事件冒泡
+            window.event.cancelBubble = true;
+    }
+    function pdpass(){
+        if($("input[name=account]").val()==null || $("input[name=account]").val()==""){
+            alert("账号不能为空");
+            return false;
+        }
+        if($("input[name=nikeName]").val()==null || $("input[name=nikeName]").val()==""){
+            alert("姓名不能为空");
+            return false;
+        }
+        if($("input[name=password]").val()==null || $("input[name=password]").val()==""){
+            alert("密码不能为空");
+            $("#verificationCode").focus();
+            return false;
+        }
+        if($("input[name=account]").val().length<=5){
+            alert("账号不能小于5位");
+            return false;
+        }
+        if($("input[name=password]").val().length<=5){
+            alert("密码不能小于5位");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+
+</html>

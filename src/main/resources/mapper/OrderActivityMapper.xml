@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.OrderActivityMapper">
+  <resultMap id="BaseResultMap" type="com.example.peach.pojo.OrderActivity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="total_fee" jdbcType="DECIMAL" property="totalFee" />
+    <result column="deposit_fee" jdbcType="DECIMAL" property="depositFee" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="body" jdbcType="VARCHAR" property="body" />
+    <result column="trade_status" jdbcType="VARCHAR" property="tradeStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+
+  </resultMap>
+
+  <resultMap id="OrderAU" type="com.example.peach.pojo.OrderActivity">
+  <id column="id" jdbcType="INTEGER" property="id" />
+  <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+  <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+  <result column="user_id" jdbcType="INTEGER" property="userId" />
+  <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+  <result column="total_fee" jdbcType="DECIMAL" property="totalFee" />
+  <result column="deposit_fee" jdbcType="DECIMAL" property="depositFee" />
+  <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+  <result column="body" jdbcType="VARCHAR" property="body" />
+  <result column="trade_status" jdbcType="VARCHAR" property="tradeStatus" />
+  <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <collection property="activityList" ofType="com.example.peach.pojo.Activity">
+      <id column="activity_id" jdbcType="INTEGER" property="id" />
+      <result column="activity_name" jdbcType="VARCHAR" property="actname" />
+      <result column="activity_contentname" jdbcType="VARCHAR" property="actcontentname" />
+      <result column="activity_time" jdbcType="DATE" property="acttime" />
+      <result column="activity_endtime" jdbcType="DATE" property="actendtime" />
+      <result column="activity_place" jdbcType="VARCHAR" property="actplace" />
+      <result column="activity_cost" jdbcType="DOUBLE" property="actcost" />
+      <result column="activity_rule" jdbcType="VARCHAR" property="actrule" />
+      <result column="activity_content" jdbcType="VARCHAR" property="actcontent" />
+      <result column="activity_imgurl" jdbcType="VARCHAR" property="actimgurl" />
+      <result column="activity_nature" jdbcType="VARCHAR" property="actnature" />
+    </collection>
+    <collection property="userList" ofType="com.example.peach.pojo.User">
+      <id column="user_id" jdbcType="INTEGER" property="id" />
+      <result column="user_nickname" jdbcType="VARCHAR" property="nickName" />
+      <result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+      <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+      <result column="user_phone" jdbcType="VARCHAR" property="userphone" />
+      <result column="user_age" jdbcType="INTEGER" property="userage" />
+      <result column="sex" jdbcType="INTEGER" property="gender" />
+      <result column="country" jdbcType="VARCHAR" property="country" />
+      <result column="province" jdbcType="VARCHAR" property="province" />
+      <result column="city" jdbcType="VARCHAR" property="city" />
+      <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+      <result column="user_autograph" jdbcType="VARCHAR" property="userAutograph" />
+      <result column="user_occupation" jdbcType="VARCHAR" property="userOccupation" />
+      <result column="is_marriage" jdbcType="BIT" property="isMarriage" />
+      <result column="user_height" jdbcType="INTEGER" property="userHeight" />
+      <result column="user_education" jdbcType="VARCHAR" property="userEducation" />
+      <result column="user_salary" jdbcType="VARCHAR" property="userSalary" />
+      <result column="user_interest" jdbcType="VARCHAR" property="userInterest" />
+      <result column="user_label" jdbcType="VARCHAR" property="userLabel" />
+      <result column="user_jurisdiction" jdbcType="INTEGER" property="userJurisdiction" />
+      <result column="user_idcard" jdbcType="CHAR" property="userIdcard" />
+      <result column="headimgurl" jdbcType="VARCHAR" property="avatarUrl" />
+      <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
+      <result column="openid" jdbcType="VARCHAR" property="openid" />
+      <result column="is_realname" jdbcType="BIT" property="isrealname" />
+      <result column="user_native" jdbcType="VARCHAR" property="usernative" />
+      <result column="unionid" jdbcType="VARCHAR" property="unionid" />
+      <result column="user_marrytime" jdbcType="VARCHAR" property="userMarrytime" />
+      <result column="user_newold" jdbcType="BIT" property="userNewold" />
+      <result column="user_tips" jdbcType="BIT" property="userTips" />
+      <result column="user_house" jdbcType="INTEGER" property="userHouse" />
+      <result column="user_car" jdbcType="INTEGER" property="userCar" />
+      <result column="user_praise" jdbcType="INTEGER" property="userPraise" />
+      <result column="user_blacklist" jdbcType="INTEGER" property="userBlacklist" />
+      <result column="user_createtime" property="userCreatetime"/>
+    </collection>
+</resultMap>
+  <sql id="Base_Column_List">
+    id, out_trade_no, transaction_id, user_id, trade_type, total_fee, deposit_fee, activity_id, 
+    body, trade_status, create_time, update_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_activity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_activity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.peach.pojo.OrderActivity">
+    insert into order_activity (id, out_trade_no, transaction_id, 
+      user_id, trade_type, total_fee, 
+      deposit_fee, activity_id, body, 
+      trade_status, create_time, update_time, 
+      end_time)
+    values (#{id,jdbcType=INTEGER}, #{outTradeNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{tradeType,jdbcType=VARCHAR}, #{totalFee,jdbcType=DECIMAL}, 
+      #{depositFee,jdbcType=DECIMAL}, #{activityId,jdbcType=INTEGER}, #{body,jdbcType=VARCHAR}, 
+      #{tradeStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.peach.pojo.OrderActivity">
+    insert into order_activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="tradeType != null">
+        trade_type,
+      </if>
+      <if test="totalFee != null">
+        total_fee,
+      </if>
+      <if test="depositFee != null">
+        deposit_fee,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="body != null">
+        body,
+      </if>
+      <if test="tradeStatus != null">
+        trade_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="depositFee != null">
+        #{depositFee,jdbcType=DECIMAL},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="body != null">
+        #{body,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeStatus != null">
+        #{tradeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByOutTradeNo" parameterType="com.example.peach.pojo.OrderActivity">
+    update order_activity
+    <set>
+      <if test="transactionId != null">
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="tradeType != null">
+        trade_type = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        total_fee = #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="depositFee != null">
+        deposit_fee = #{depositFee,jdbcType=DECIMAL},
+      </if>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="body != null">
+        body = #{body,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeStatus != null">
+        trade_status = #{tradeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time =now(),
+      </if>
+    </set>
+    where  out_trade_no = #{outTradeNo,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectOrderUA" parameterType="java.lang.Integer" resultMap="OrderAU">
+    select *
+    from user as us,activity as act,order_activity as o
+    where us.id=#{userId} and act.id = o.id
+  </select>
+  <select id="selectOrderUAByOut" parameterType="java.lang.String" resultMap="OrderAU">
+    select *
+    from user as us,activity as act,order_activity as o
+    where us.id=o.user_id and act.id = o.id and o.out_trade_no=#{outTradeNo}
+
+  </select>
+
+  <update id="updatePayBack" parameterType="com.example.peach.pojo.OrderActivity">
+    update user as u,order_activity as o,actorder as a
+    set o.trade_status = #{tradeStatus,jdbcType=VARCHAR},
+        o.update_time =now(),
+        o.end_time =now(),
+        a.status = #{status}
+    where a.activity_id = o.activity_id and a.user_id = o.user_id = u.id and o.out_trade_no = #{outTradeNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

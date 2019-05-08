@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/pintuer.js"></script>
+    <!--bootstrap-->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--select选择-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="bootstrap-select-1.13.2/js/bootstrap-select.js"></script>
+    <!--时间选择器-->
+    <script src="js/moment-with-locales.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="panel">
+    <div class="page-header">
+        <h3>添加用户</h3>
+    </div>
+    <div class="body-content">
+        <form class="form-horizontal" id="foradduser" method="post">
+            <div class="col-sm-10 col-md-offset-1 add_user_jb" >
+                <div class="page-header">
+                    <h3>基本信息填写</h3>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">姓名:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="userRealname" placeholder="姓名">
+                    </div>
+                    <label class="col-sm-2 control-label">性别：</label>
+                    <div class="col-sm-3">
+                        <select name="gender" class="selectpicker show-tick form-control">
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">年龄:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="userage" placeholder="年龄">
+                    </div>
+                    <label class="col-sm-2 control-label">婚否：</label>
+                    <div class="col-sm-3">
+                        <select name="isMarriage" class="selectpicker show-tick form-control">
+                            <option value="0">未婚</option>
+                            <option value="1">已婚过</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">身高:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="userHeight" placeholder="身高">
+                    </div>
+                    <label class="col-sm-2 control-label">学历：</label>
+                    <div class="col-sm-3">
+                        <select name="userEducation" class="selectpicker show-tick form-control">
+                            <option>专科</option>
+                            <option>本科</option>
+                            <option>硕士</option>
+                            <option>博士</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">职业：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="userOccupation" placeholder="职业">
+                    </div>
+                    <label class="col-sm-2 control-label">薪资：</label>
+                    <div class="col-sm-3">
+                        <select name="userSalary" class="selectpicker show-tick form-control">
+                            <option>0-3千</option><option>3千-5千</option><option>5千-1万</option>
+                            <option>1万-2万</option><option>2万-5万</option><option>5万-10万</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">电话号码:</label>
+                    <div class='col-sm-3'>
+                        <input type="text" class="form-control" name="userphone" placeholder="电话号码">
+                    </div>
+                    <label class="col-sm-2 control-label">生日:</label>
+                    <div class='col-sm-3'>
+                        <div class='input-group date' id='datetimepicker2'>
+                            <input type='text'id="userBirthday"  name="userBirthday"  class="form-control" />
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">籍贯:</label>
+                    <div class='col-sm-3'>
+                        <input type="text" class="form-control" name="usernative" placeholder="籍贯">
+                    </div>
+                    <label class="col-sm-2 control-label">期望结婚时间:</label>
+                    <div class='col-sm-3'>
+                        <select name="userMarrytime" class="selectpicker show-tick form-control">
+                            <option>两年内</option>
+                            <option>一年</option>
+                            <option>半年内</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">身份证:</label>
+                    <div class='col-sm-3'>
+                        <input type="text" class="form-control" name="userIdcard" placeholder="身份证">
+                    </div>
+                    <label class="col-sm-2 control-label">爱好:</label>
+                    <div class="col-sm-3">
+                        <select name="userInterest" class="selectpicker" multiple data-live-search="true">
+                            <option>骑行</option><option>爬山</option><option>野营</option>
+                            <option>徒步</option><option>自驾游</option><option>国外游</option>
+                            <option>散文</option><option>诗集</option><option>历史</option>
+                            <option>创作</option><option>羽毛球</option><option>跑步</option>
+                            <option>网球</option><option>篮球</option><option>足球</option>
+                            <option>哑铃</option><option>鲁菜</option><option>川菜</option>
+                            <option>粤菜</option><option>淮扬菜</option><option>闽菜</option>
+                            <option>湘菜</option><option>徽菜</option><option>西餐</option>
+                            <option>韩剧</option><option>美剧</option><option>电影</option>
+                            <option>吉他</option><option>钢琴</option><option>绘画</option>
+                            <option>摄影</option><option>养花</option><option>种草</option>
+                            <option>植物类</option><option>猫</option><option>狗</option>
+                            <option>松鼠</option><option>蛇</option><option>蜥蜴</option>
+                            <option>汉服</option><option>唐服</option><option>cosplay</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-10 col-md-offset-1 add_user_jb">
+                <div class="page-header">
+                    <h3>择偶要求</h3>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">年龄:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="mate.mateAge" placeholder="择偶年龄">
+                    </div>
+                    <label class="col-sm-2 control-label">身高:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="mate.mateHeight" placeholder="择偶身高">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">薪资:</label>
+                    <div class="col-sm-3">
+                        <select name="mate.mateSalary" class="selectpicker show-tick form-control">
+                            <option>0-3千</option><option>3千-5千</option><option>5千-1万</option>
+                            <option>1万-2万</option><option>2万-5万</option><option>5万-10万</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label">学历：</label>
+                    <div class="col-sm-3">
+                        <select name="mate.mateEducation" class="selectpicker show-tick form-control">
+                            <option>专科</option>
+                            <option>本科</option>
+                            <option>硕士</option>
+                            <option>博士</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">期望结婚时间:</label>
+                    <div class='col-sm-3'>
+                        <select name="mate.mateMarrytime" class="selectpicker show-tick form-control">
+                            <option>两年内</option>
+                            <option>一年</option>
+                            <option>半年内</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label">婚姻状况：</label>
+                    <div class="col-sm-3">
+                        <select name="mate.mateMarriage" class="selectpicker show-tick form-control">
+                            <option>未婚</option>
+                            <option>已婚过</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">籍贯：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="mate.mateNative" placeholder="择偶籍贯">
+                    </div>
+                    <label class="col-sm-2 control-label">信仰：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="mate.mateBelief" placeholder="信仰">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">饮酒：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="mate.mateDrink" placeholder="是否饮酒">
+                    </div>
+                    <label class="col-sm-2 control-label">抽烟：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="mate.mateSmoking" placeholder="是否抽烟">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">有无子女：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" name="mate.isChildren" placeholder="有无子女">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-10 col-md-offset-1 add_user_jb">
+                <div style="padding:15px 0 5px 0;">
+                    <div class="form-group">
+                        <div class="col-sm-8 col-md-offset-2">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" id="tjadduser">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+    var path="https://www.thy66.cn/pe/peach";
+    $(function () {
+        adduser.user();
+    });
+    var adduser = {
+        user : function () {
+            $("#tjadduser").on('click',function () {
+
+                if(!pdpage()){
+                    return false;
+                }
+                $.ajax({
+                    type:"POST",
+                    dataType: 'JSON',
+                    url:path+ "/user/adduamate",
+                    data: $("#foradduser").serializeArray(),
+                    success: function (data) {
+                        $("#userBirthday").attr("name","userBirthday");
+                        alert(data.msg);
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("添加失败");
+                        $("#userBirthday").attr("name","userBirthday");
+                    }
+                })
+            });
+        }
+    }
+    function pdpage(){
+        if($("input[name=userphone]").val()==null || $("input[name=userphone]").val()==""){
+            alert("电话号码不能为空");
+            return false;
+        }
+        if($("input[name=userBirthday]").val()==null || $("input[name=userBirthday]").val()==""){
+            $("input[name=userBirthday]").attr("name","");
+        }
+        return true;
+    }
+    $('#datetimepicker2').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale : moment().locale('zh-cn')
+    });
+</script>
+</html>

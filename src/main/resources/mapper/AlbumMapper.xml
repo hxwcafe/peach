@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.AlbumMapper">
+    <resultMap id="BaseDao" type="com.example.peach.pojo.Album">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="album_path" jdbcType="VARCHAR" property="albumPath"/>
+        <result column="album_date" jdbcType="DATE" property="albumDate"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,album_path,album_date,user_id,status
+  </sql>
+    <insert id="insertAlbum" parameterType="Album">
+        INSERT into album(album_path,album_date,user_id)
+        VALUES(#{albumPath,jdbcType=VARCHAR},#{albumDate,jdbcType=DATE},#{userId,jdbcType=INTEGER})
+    </insert>
+
+    <select id="seletByuserId" parameterType="java.lang.Integer" resultMap="BaseDao">
+      select
+      <include refid="Base_Column_List"/>
+      from album
+      where user_id=#{userId}
+    </select>
+    <delete id="deleteAlbum" parameterType="java.lang.Integer">
+        delete from album
+        where user_id = #{userId}
+    </delete>
+
+
+</mapper>

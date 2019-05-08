@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.MateMapper">
+    <resultMap id="BaseMapper" type="com.example.peach.pojo.Mate">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="mate_age" jdbcType="VARCHAR" property="mateAge"/>
+        <result column="mate_height" jdbcType="VARCHAR" property="mateHeight"/>
+        <result column="mate_salary" jdbcType="VARCHAR" property="mateSalary"/>
+        <result column="mate_education" jdbcType="VARCHAR" property="mateEducation"/>
+        <result column="mate_native" jdbcType="VARCHAR" property="mateNative"/>
+        <result column="mate_marriage" jdbcType="VARCHAR" property="mateMarriage"/>
+        <result column="mate_belief" jdbcType="VARCHAR" property="mateBelief"/>
+        <result column="mate_drink" jdbcType="VARCHAR" property="mateDrink"/>
+        <result column="mate_smoking" jdbcType="VARCHAR" property="mateSmoking"/>
+        <result column="mate_marrytime" jdbcType="VARCHAR" property="mateMarrytime" />
+        <result column="is_children" jdbcType="VARCHAR" property="isChildren"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    </resultMap>
+    <!--一对一-->
+    <resultMap id="BaseMapperList" type="com.example.peach.pojo.Mate">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="mate_age" jdbcType="VARCHAR" property="mateAge"/>
+        <result column="mate_height" jdbcType="VARCHAR" property="mateHeight"/>
+        <result column="mate_salary" jdbcType="VARCHAR" property="mateSalary"/>
+        <result column="mate_education" jdbcType="VARCHAR" property="mateEducation"/>
+        <result column="mate_native" jdbcType="VARCHAR" property="mateNative"/>
+        <result column="mate_marriage" jdbcType="VARCHAR" property="mateMarriage"/>
+        <result column="mate_belief" jdbcType="VARCHAR" property="mateBelief"/>
+        <result column="mate_drink" jdbcType="VARCHAR" property="mateDrink"/>
+        <result column="mate_smoking" jdbcType="VARCHAR" property="mateSmoking"/>
+        <result column="mate_marrytime" jdbcType="VARCHAR" property="mateMarrytime" />
+        <result column="is_children" jdbcType="VARCHAR" property="isChildren"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <association property="user" javaType="com.example.peach.pojo.User">
+            <result column="user_nickname" jdbcType="VARCHAR" property="nickName" />
+            <result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+            <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+            <result column="user_phone" jdbcType="VARCHAR" property="userphone" />
+            <result column="user_age" jdbcType="INTEGER" property="userage" />
+            <result column="sex" jdbcType="INTEGER" property="gender" />
+            <result column="country" jdbcType="VARCHAR" property="country" />
+            <result column="province" jdbcType="VARCHAR" property="province" />
+            <result column="city" jdbcType="VARCHAR" property="city" />
+            <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+            <result column="user_autograph" jdbcType="VARCHAR" property="userAutograph" />
+            <result column="user_occupation" jdbcType="VARCHAR" property="userOccupation" />
+            <result column="is_marriage" jdbcType="BIT" property="isMarriage" />
+            <result column="user_height" jdbcType="INTEGER" property="userHeight" />
+            <result column="user_education" jdbcType="VARCHAR" property="userEducation" />
+            <result column="user_salary" jdbcType="VARCHAR" property="userSalary" />
+            <result column="user_interest" jdbcType="VARCHAR" property="userInterest" />
+            <result column="user_jurisdiction" jdbcType="INTEGER" property="userJurisdiction" />
+            <result column="user_idcard" jdbcType="CHAR" property="userIdcard" />
+            <result column="headimgurl" jdbcType="VARCHAR" property="avatarUrl" />
+            <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
+            <result column="openid" jdbcType="VARCHAR" property="openid" />
+            <result column="is_realname" jdbcType="BIT" property="isrealname" />
+            <result column="user_native" jdbcType="VARCHAR" property="usernative" />
+            <result column="unionid" jdbcType="VARCHAR" property="unionid" />
+            <result column="user_marrytime" jdbcType="VARCHAR" property="userMarrytime" />
+            <result column="user_newold" jdbcType="BIT" property="userNewold" />
+            <result column="user_tips" jdbcType="BIT" property="userTips" />
+            <result column="user_house" jdbcType="INTEGER" property="userHouse" />
+            <result column="user_car" jdbcType="INTEGER" property="userCar" />
+            <result column="user_praise" jdbcType="INTEGER" property="userPraise" />
+            <result column="user_blacklist" jdbcType="INTEGER" property="userBlacklist" />
+            <result column="user_createtime" property="userCreatetime"/>
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+            id,mate_age,mate_height,mate_salary,mate_education,mate_native,mate_marriage,
+            mate_belief,mate_drink,mate_smoking,mate_marrytime,is_children,user_id
+        </sql>
+    <select id="selectByuserId" parameterType="java.lang.Integer" resultMap="BaseMapper">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mate
+    WHERE user_id=#{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mate
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+    <select id="selectByOpenId" resultMap="BaseMapperList" parameterType="java.lang.String">
+    SELECT  m.id,mate_age,mate_height,mate_salary,mate_education,mate_native,mate_marriage,
+			  mate_belief,mate_drink,mate_smoking,mate_marrytime,is_children,user_id,user_nickname, user_realname,
+				user_birthday, sex,user_phone,user_age, country, province, city, user_address,
+				user_autograph, user_occupation, is_marriage, user_height, user_education, user_salary,
+				user_interest, user_jurisdiction, user_idcard, headimgurl, user_integral, openid,is_realname,user_native,
+				unionid,user_marrytime,user_newold,user_tips,user_house,user_car,user_praise,user_blacklist,user_createtime
+    FROM mate m
+    LEFT JOIN `user` u on m.user_id=u.id
+    where openid=#{openid,jdbcType=VARCHAR}
+    </select>
+    <insert id="insertMate" parameterType="Mate">
+            INSERT INTO mate (mate_age,mate_height,mate_salary,mate_education,
+            mate_native,mate_marriage,mate_belief,mate_drink,mate_smoking,mate_marrytime,is_children,user_id)
+            VALUES(#{mateAge,jdbcType=VARCHAR},#{mateHeight,jdbcType=VARCHAR},#{mateSalary,jdbcType=VARCHAR},
+                  #{mateEducation,jdbcType=VARCHAR},#{mateNative,jdbcType=VARCHAR},
+                  #{mateMarriage,jdbcType=VARCHAR},#{mateBelief,jdbcType=VARCHAR},#{mateDrink,jdbcType=VARCHAR},#{mateSmoking,jdbcType=VARCHAR},
+                  #{mateMarrytime},#{isChildren,jdbcType=VARCHAR},#{userId,jdbcType=INTEGER})
+        </insert>
+    <update id="updateMate" parameterType="Mate">
+        UPDATE mate
+          <set>
+              <if test="mateAge != null">
+                  mate_age = #{mateAge,jdbcType=VARCHAR},
+              </if>
+              <if test="mateHeight != null">
+                  mate_height = #{mateHeight,jdbcType=VARCHAR},
+              </if>
+              <if test="mateSalary != null">
+                  mate_salary = #{mateSalary,jdbcType=VARCHAR},
+              </if>
+              <if test="mateEducation != null">
+                  mate_education = #{mateEducation,jdbcType=VARCHAR},
+              </if>
+              <if test="mateNative != null">
+                  mate_native = #{mateNative,jdbcType=VARCHAR},
+              </if>
+              <if test="mateMarriage != null">
+                  mate_marriage = #{mateMarriage,jdbcType=VARCHAR},
+              </if>
+              <if test="mateBelief != null">
+                  mate_belief = #{mateBelief,jdbcType=VARCHAR},
+              </if>
+              <if test="mateDrink != null">
+                  mate_drink = #{mateDrink,jdbcType=VARCHAR},
+              </if>
+              <if test="mateSmoking != null">
+                  mate_smoking = #{mateSmoking,jdbcType=TIMESTAMP},
+              </if>
+              <if test="mateMarrytime != null">
+                  mate_marrytime = #{mateMarrytime,jdbcType=VARCHAR},
+              </if>
+              <if test="isChildren != null">
+                  is_children = #{isChildren,jdbcType=VARCHAR},
+              </if>
+              <!--<if test="userId != null">-->
+                  <!--user_id = #{userId,jdbcType=INTEGER},-->
+              <!--</if>-->
+          </set>
+        WHERE user_id=#{userId,jdbcType=INTEGER}
+    </update>
+    <resultMap id="UAMate" type="com.example.peach.pojo.merge.UAMate">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="nickName"/>
+        <result column="user_realname" jdbcType="VARCHAR" property="userRealname"/>
+        <result column="user_birthday" jdbcType="DATE" property="userBirthday"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userphone"/>
+        <result column="user_age" jdbcType="INTEGER" property="userage"/>
+        <result column="sex" jdbcType="INTEGER" property="gender"/>
+        <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+        <result column="user_autograph" jdbcType="VARCHAR" property="userAutograph"/>
+        <result column="user_occupation" jdbcType="VARCHAR" property="userOccupation"/>
+        <result column="is_marriage" jdbcType="BIT" property="isMarriage"/>
+        <result column="user_height" jdbcType="INTEGER" property="userHeight"/>
+        <result column="user_education" jdbcType="VARCHAR" property="userEducation"/>
+        <result column="user_salary" jdbcType="VARCHAR" property="userSalary"/>
+        <result column="user_interest" jdbcType="VARCHAR" property="userInterest"/>
+        <result column="user_label" jdbcType="VARCHAR" property="userLabel" />
+        <result column="user_jurisdiction" jdbcType="INTEGER" property="userJurisdiction"/>
+        <result column="user_idcard" jdbcType="CHAR" property="userIdcard"/>
+        <result column="headimgurl" jdbcType="VARCHAR" property="avatarUrl"/>
+        <result column="user_integral" jdbcType="INTEGER" property="userIntegral"/>
+        <result column="openid" jdbcType="VARCHAR" property="openid"/>
+        <result column="is_realname" jdbcType="BIT" property="isrealname"/>
+        <result column="user_native" jdbcType="VARCHAR" property="usernative"/>
+        <result column="unionid" jdbcType="VARCHAR" property="unionid"/>
+        <result column="user_marrytime" jdbcType="VARCHAR" property="userMarrytime"/>
+        <result column="user_newold" jdbcType="BIT" property="userNewold"/>
+        <result column="user_tips" jdbcType="BIT" property="userTips" />
+        <result column="user_house" jdbcType="INTEGER" property="userHouse" />
+        <result column="user_car" jdbcType="INTEGER" property="userCar" />
+        <result column="user_praise" jdbcType="INTEGER" property="userPraise" />
+        <result column="user_blacklist" jdbcType="INTEGER" property="userBlacklist" />
+        <result column="user_createtime" property="userCreatetime"/>
+        <collection property="userVipl" column="user_id" ofType="com.example.peach.pojo.UserVip">
+            <id column="vip_id" jdbcType="INTEGER" property="id" />
+            <result column="vip_grade" jdbcType="INTEGER" property="vipGrade" />
+            <result column="vip_appointment" jdbcType="INTEGER" property="vipAppointment" />
+            <result column="vip_createtime" jdbcType="TIMESTAMP" property="vipCreatetime" />
+            <result column="vip_endtime" jdbcType="TIMESTAMP" property="vipEndtime" />
+            <result column="user_id" jdbcType="INTEGER" property="userId" />
+            <result column="user_wallet" jdbcType="DECIMAL" property="userWallet" />
+            <result column="user_deposit" jdbcType="DECIMAL" property="userDeposit" />
+            <result column="user_free" jdbcType="BIT" property="userFree" />
+        </collection>
+        <collection property="mate" column="user_id" ofType="com.example.peach.pojo.Mate">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="mate_age" jdbcType="VARCHAR" property="mateAge"/>
+            <result column="mate_height" jdbcType="VARCHAR" property="mateHeight"/>
+            <result column="mate_salary" jdbcType="VARCHAR" property="mateSalary"/>
+            <result column="mate_education" jdbcType="VARCHAR" property="mateEducation"/>
+            <result column="mate_native" jdbcType="VARCHAR" property="mateNative"/>
+            <result column="mate_marriage" jdbcType="VARCHAR" property="mateMarriage"/>
+            <result column="mate_belief" jdbcType="VARCHAR" property="mateBelief"/>
+            <result column="mate_drink" jdbcType="VARCHAR" property="mateDrink"/>
+            <result column="mate_smoking" jdbcType="VARCHAR" property="mateSmoking"/>
+            <result column="mate_marrytime" jdbcType="VARCHAR" property="mateMarrytime" />
+            <result column="is_children" jdbcType="VARCHAR" property="isChildren"/>
+            <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        </collection>
+    </resultMap>
+    <select id="selectUAMate" resultMap="UAMate" parameterType="java.lang.Integer">
+        select u.*,vip.id as vip_id ,vip.*
+        from user_vip as vip,user as u
+        where vip.user_id = u.id and u.id = #{userId}
+    </select>
+</mapper>

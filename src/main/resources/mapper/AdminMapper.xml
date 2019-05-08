@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.AdminMapper">
+    <resultMap id="AdminMapping" type="com.example.peach.pojo.Admin">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="nike_name" jdbcType="VARCHAR" property="nikeName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="is_super" jdbcType="INTEGER" property="isSuper"/>
+        <result column="is_prohibit" jdbcType="INTEGER" property="isProhibit"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+        <result column="update_time" jdbcType="DATE" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectAdminByAccount" resultMap="AdminMapping"> <!--根据account查询用户(禁用,删除均有结果)-->
+      select * from admin where account = #{account}
+    </select>
+
+    <select id="selectAdminByAccountAndPwd" resultMap="AdminMapping"><!--根据account和密码查询用户,不包括已被删除,登录用-->
+      select * from admin where account = #{account} and password = #{pwd}  and is_prohibit != 2
+    </select>
+
+    <insert id="addAdmin" parameterType="com.example.peach.pojo.Admin"><!--添加用户-->
+      insert into admin values(null,#{account},#{password},#{nikeName},#{isSuper},0,now(),now())
+    </insert>
+
+    <delete id="delAdminById" parameterType="com.example.peach.pojo.Admin"> <!--禁用用户即把prohibit字段改为1,删除则为2-->
+      update admin set is_prohibit = #{isProhibit},update_time = now() where id = #{id}
+    </delete>
+
+    <update id="updatepwdByid" parameterType="com.example.peach.pojo.Admin"><!--修改密码-->
+        update admin set password = #{password},update_time = now() where id = #{id};
+    </update>
+
+    <select id="selectAdmin" resultMap="AdminMapping"><!--查询所有管理员-->
+        select * from admin;
+    </select>
+
+    <update id="updateAdminById" parameterType="com.example.peach.pojo.Admin">
+        update admin
+        set account = #{account},nike_name=#{nikeName},is_super=#{isSuper},is_prohibit = #{isProhibit},
+        update_time = now()
+        where id = #{id}
+    </update>
+</mapper>

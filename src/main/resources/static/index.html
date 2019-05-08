@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>后台管理中心</title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+</head>
+<body style="background-color:#f2f9fd;">
+<div class="header bg-main">
+    <div class="logo margin-big-left fadein-top">
+        <h1><img src="images/y.jpg" class="radius-circle rotate-hover" height="50" alt="" />后台管理中心</h1>
+    </div>
+    <div class="head-l"><a class="button button-little bg-green" href="" target="_blank"><span class="icon-home"></span> 前台首页</a>
+        &nbsp;&nbsp;<a class="button button-little bg-red" id="lognmove"><span class="icon-power-off"></span> 退出登录</a>
+    </div>
+</div>
+<div class="leftnav">
+    <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
+    <h2><span class="icon-user"></span>用户管理</h2>
+    <ul style="display:block">
+        <li><a href="index_user.html" target="right"><span class="icon-caret-right"></span>用户显示</a></li>
+        <li><a href="add_user.html" target="right"><span class="icon-caret-right"></span>添加用户</a></li>
+        <li><a href="black_user.html" target="right"><span class="icon-caret-right"></span>黑名单</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>账单管理</h2>
+    <ul>
+        <li><a href="cashmanager.html" target="right"><span class="icon-caret-right"></span>押金审核</a></li>
+        <!--<li><a href="add.html" target="right"><span class="icon-caret-right"></span>添加内容</a></li>-->
+        <!--<li><a href="cate.html" target="right"><span class="icon-caret-right"></span>分类管理</a></li>-->
+    </ul>
+
+    <h2><span class="icon-pencil-square-o"></span>活动管理</h2>
+    <ul>
+        <li><a href="page.html" target="right"><span class="icon-caret-right"></span>发布活动</a></li>
+        <li><a href="activity.html" target="right"><span class="icon-caret-right"></span>活动显示</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>会员服务</h2>
+    <ul>
+        <li><a href="vip_user.html" target="right"><span class="icon-caret-right"></span>用户会员</a></li>
+        <li><a href="appointment.html" target="right"><span class="icon-caret-right"></span>处理约见</a></li>
+        <li><a href="book.html" target="right"><span class="icon-caret-right"></span>会员卡商品管理</a></li>
+    </ul>
+
+
+    <h2><span class="icon-pencil-square-o"></span>账号管理</h2>
+    <ul>
+        <li><a href="pass.html" target="right"><span class="icon-caret-right"></span>修改密码</a></li>
+        <li><a href="zhmanger.html" target="right"><span class="icon-caret-right"></span>管理员管理</a></li>
+    </ul>
+    <h2><span class="icon-pencil-square-o"></span>栏目管理</h2>
+    <ul>
+        <li><a href="list.html" target="right"><span class="icon-caret-right"></span>内容管理</a></li>
+        <li><a href="add.html" target="right"><span class="icon-caret-right"></span>添加内容</a></li>
+        <li><a href="cate.html" target="right"><span class="icon-caret-right"></span>分类管理</a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    var path = "https://www.thy66.cn/pe/peach";
+    $(function() {
+        $.ajax({
+            type: "GET",
+            dataType: 'JSON',
+            url: path + "/admin/sessionVerification",
+            success: function (data) {
+                if(data.status){
+                    index.indexList();
+                }else{
+                    alert("您没有进行登录");
+                    window.location.href=path+"/login.html";
+                }
+            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("退出登录失败");
+                window.location.href = path + "/index.html";
+
+            }
+        });
+    });
+
+    var index = {
+        indexList:function () {
+            this.leftnav();
+            this.loginMove();//退出登录
+        },
+        leftnav:function(){
+            $(".leftnav h2").click(function () {
+                $(this).next().slideToggle(200);
+                $(this).toggleClass("on");
+            })
+            $(".leftnav ul li a").click(function () {
+                $("#a_leader_txt").text($(this).text());
+                $(".leftnav ul li a").removeClass("on");
+                $(this).addClass("on");
+            })
+        },
+        loginMove :function () {
+            $("#lognmove").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url:path+ "/admin/loginOut",
+                    success: function (data) {
+                        if(data.status){
+                            alert(data.msg);
+                            window.location.href=path+"/login.html";
+                        }else{
+                            alert(data.msg);
+                        }
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("退出登录失败");
+                        window.location.href=path+"/index.html";
+
+                    }
+                });
+            });
+        }
+    }
+</script>
+<ul class="bread">
+    <li><a href="{:U('Index/info')}" target="right" class="icon-home"> 首页</a></li>
+    <li><a href="##" id="a_leader_txt">网站信息</a></li>
+    <li><b>当前语言：</b><span style="color:red;">中文</php></span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;切换语言：<a href="##">中文</a> &nbsp;&nbsp;<a href="##">英文</a> </li>
+</ul>
+<div class="admin">
+    <iframe scrolling="auto" rameborder="0" src="index_user.html" name="right" width="100%" height="100%"></iframe>
+</div>
+<div style="text-align:center;">
+    <p>来源:<a href="http://www.php.cn/" target="_blank">PHP中文网下载站</a></p>
+</div>
+</body>
+</html>

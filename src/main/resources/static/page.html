@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="renderer" content="webkit">
+  <title></title>
+
+
+  <script src="js/jquery-3.3.1.js"></script>
+<script src="js/pintuer.js"></script>
+  <!--bootstrap-->
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+  <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+  <!--时间选择器-->
+  <script src="js/moment-with-locales.min.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.min.js"></script>
+  <link href="bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="js/jquery.form.js"></script>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="panel">
+  <div class="page-header">
+    <h3>活动发布</h3>
+  </div>
+      <div class="body-content">
+        <form class="form-horizontal" id="formpage" enctype="multipart/form-data">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">标题:</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="actname" placeholder="标题">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">内容标题:</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="actcontentname" placeholder="内容标题">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">活动地点:</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" name="actplace" placeholder="活动地点">
+            </div>
+          </div>
+          <div class="form-group">
+          <label class="col-sm-2 control-label">活动费用:</label>
+          <div class="col-sm-3">
+            <input type="text" name="cost" class="form-control" placeholder="活动费用">
+          </div>
+          <label class="col-sm-2 control-label">活动押金:</label>
+          <div class="col-sm-3">
+            <input type="text" name="deposit" class="form-control" placeholder="活动押金">
+          </div>
+        </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">活动时间:</label>
+            <div class='col-sm-3'>
+                <div class='input-group date' id='datetimepicker1'>
+                  <input type='text' name="starttime" class="form-control" />
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                </div>
+            </div>
+            <label class="col-sm-2 control-label">截止时间:</label>
+            <div class='col-sm-3'>
+            <div class='input-group date' id='datetimepicker2'>
+              <input type='text' name="endtime" class="form-control" />
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+            </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">图片上传:</label>
+            <input type="file" class="button bg-blue margin-left" name="file" accept="image/*" style="float:left;">
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">活动规则:</label>
+            <div class="col-sm-8">
+              <textarea class="form-control" rows="8" name="actrule"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">活动内容:</label>
+            <div class="col-sm-8">
+              <textarea class="form-control" rows="8" name="actcontent"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">活动要求:</label>
+            <div class="col-sm-8">
+              <textarea class="form-control" rows="8" name="actnature"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">邀请奖励描述:</label>
+            <div class="col-sm-8">
+              <textarea class="form-control" rows="3" name="actinvitation"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-8 col-md-offset-2">
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="tjactivity">提交</button>
+            </div>
+          </div>
+    </form>
+  </div>
+</div>
+</body>
+<script>
+    var path="https://www.thy66.cn/pe/peach";
+  $(function () {
+      page.activity();
+  });
+  var page = {
+      activity : function () {
+          $("#tjactivity").on('click',function () {
+              if(!pdpage()){
+                  return false;
+              }
+              $('#formpage').ajaxSubmit({
+                  type:"POST",
+                  dataType: 'JSON',
+                  processData:false,
+                  mimeType: 'multipart/form-data',
+                  url:path+ "/mactivity/insertActivity",
+                  data: $("#formpage").serializeArray(),
+                  success: function (data) {
+                      alert(data.msg);
+                   }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                     alert("添加失败");
+                  }
+             })
+          });
+      }
+  }
+    function pdpage(){
+        if($("input[name=actname]").val()==null || $("input[name=actname]").val()==""){
+            alert("标题不能为空");
+            return false;
+        }
+        if($("input[name=actcontentname]").val()==$("input[name=actcontentname]").val()==""){
+            alert("内容标题不能为空");
+            return false;
+        }
+        if($("input[name=actplace]").val()==$("input[name=actplace]").val()==""){
+            alert("活动地点不能为空");
+            return false;
+        }
+        if($("input[name=cost]").val()==null || $("input[name=cost]").val()==""){
+            alert("活动费用不能为空");
+            return false;
+        }
+        if($("input[name=deposit]").val()==null || $("input[name=deposit]").val()==""){
+            alert("活动押金不能为空");
+            return false;
+        }
+        if($("input[name=starttime]").val()==null || $("input[name=starttime]").val()==""){
+            alert("活动时间不能为空");
+            return false;
+        }
+        if($("input[name=endtime]").val()==null || $("input[name=endtime]").val()==""){
+            alert("截止时间不能为空");
+            return false;
+        }
+        if($("input[name=file]").val()==null || $("input[name=file]").val()==""){
+            alert("图片不能为空");
+            return false;
+        }
+        return true;
+    }
+    $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD HH:MM:SS',
+        locale : moment().locale('zh-cn')
+    });
+    $('#datetimepicker2').datetimepicker({
+        format: 'YYYY-MM-DD HH:MM:SS',
+        locale : moment().locale('zh-cn')
+    });
+</script>
+</html>

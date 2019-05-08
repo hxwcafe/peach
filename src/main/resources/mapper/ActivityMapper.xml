@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.ActivityMapper">
+    <resultMap id="BaseMap" type="com.example.peach.pojo.Activity">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="activity_name" jdbcType="VARCHAR" property="actname" />
+        <result column="activity_contentname" jdbcType="VARCHAR" property="actcontentname" />
+        <result column="activity_time" jdbcType="DATE" property="acttime" />
+        <result column="activity_endtime" jdbcType="DATE" property="actendtime" />
+        <result column="activity_place" jdbcType="VARCHAR" property="actplace" />
+        <result column="activity_cost" jdbcType="DOUBLE" property="actcost" />
+        <result column="activity_deposit" jdbcType="DOUBLE" property="actdeposit" />
+        <result column="activity_rule" jdbcType="VARCHAR" property="actrule" />
+        <result column="activity_content" jdbcType="VARCHAR" property="actcontent" />
+            <result column="activity_imgurl" jdbcType="VARCHAR" property="actimgurl" />
+        <result column="activity_nature" jdbcType="VARCHAR" property="actnature" />
+        <result column="activity_invitation" jdbcType="VARCHAR" property="actinvitation" />
+    </resultMap>
+    <sql id="Base_Column_List">
+         id,activity_name,activity_contentname,activity_time,activity_endtime,activity_place,activity_cost,
+         activity_deposit,activity_rule,activity_content,activity_imgurl,activity_nature,activity_invitation
+    </sql>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseMap">
+    select
+    <include refid="Base_Column_List" />
+    from activity
+    where id = #{id,jdbcType=INTEGER}
+    </select>
+    <!--查询所有活动-->
+    <select id="selectActivity" resultMap="BaseMap">
+        select
+        <include refid="Base_Column_List" />
+        from activity
+    </select>
+    <!--查询所有活动,活动时间排序-->
+    <select id="selectActivityBydesc" resultMap="BaseMap">
+        select
+        <include refid="Base_Column_List" />
+        from activity order by activity_time desc;
+    </select>
+    <insert id="insertActivity" parameterType="Activity">
+    INSERT INTO activity(activity_name,activity_contentname,activity_time,activity_endtime,activity_place,
+                  activity_cost,activity_deposit,activity_rule,activity_content,activity_imgurl,activity_nature,activity_invitation)
+      VALUES(#{actname,jdbcType=VARCHAR},#{actcontentname,jdbcType=VARCHAR},#{acttime,jdbcType=DATE},#{actendtime,jdbcType=DATE},
+              #{actplace,jdbcType=VARCHAR},#{actcost,jdbcType=VARCHAR},#{actdeposit,jdbcType=VARCHAR},#{actrule,jdbcType=VARCHAR},#{actcontent,jdbcType=VARCHAR},
+              #{actimgurl,jdbcType=VARCHAR},#{actnature,jdbcType=VARCHAR},#{actinvitation,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateActivity" parameterType="Activity">
+        UPDATE activity
+        <set>
+            <if test="actname != null">
+                activity_name = #{actname,jdbcType=VARCHAR},
+            </if>
+            <if test="actcontentname != null">
+                activity_contentname = #{actcontentname,jdbcType=VARCHAR},
+            </if>
+            <if test="acttime != null">
+                activity_time = #{acttime,jdbcType=DATE},
+            </if>
+            <if test="actendtime != null">
+                activity_endtime = #{actendtime,jdbcType=DATE},
+            </if>
+            <if test="actplace != null">
+                activity_place = #{actplace,jdbcType=VARCHAR},
+            </if>
+            <if test="actcost != null">
+                activity_cost = #{actcost,jdbcType=DOUBLE},
+            </if>
+            <if test="actdeposit != null">
+                activity_deposit = #{actdeposit,jdbcType=DOUBLE},
+            </if>
+            <if test="actrule != null">
+                activity_rule = #{actrule,jdbcType=VARCHAR},
+            </if>
+            <if test="actname != null">
+                activity_content = #{actcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="actimgurl != null">
+                activity_imgurl = #{actimgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="actnature != null">
+                activity_nature = #{actnature,jdbcType=VARCHAR},
+            </if>
+            <if test="actinvitation != null">
+                activity_invitation = #{actinvitation,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE id=#{id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteActivity" parameterType="java.lang.Integer">
+      DELETE FROM activity
+      WHERE id=#{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

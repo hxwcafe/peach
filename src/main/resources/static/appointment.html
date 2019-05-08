@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <!--jquery-->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!--bootstrap-->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--bootstrap-table-->
+    <script src="bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="bootstrap-table-master/src/bootstrap-table.css">
+    <!--时间选择器-->
+    <!--<script src="js/moment-with-locales.min.js"></script>-->
+    <!--<script src="bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.min.js"></script>-->
+    <!--<link href="bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
+    <!--select选择-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="bootstrap-select-1.13.2/js/bootstrap-select.js"></script>
+
+    <script src="js/jquery.form.js"></script>
+    <script src="js/allmanger.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="page-header">
+        <h3>活动显示</h3>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" id="toobar" role="group" aria-label="...">
+                    <a href="page.html" class="btn btn-default" id="table_Id">
+                        <span class="glyphicon glyphicon-plus"></span>新增
+                    </a>
+                </div>
+                <table id="managertable" class="table table-hover text-center ">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="alluserInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">个人信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="formactivity" enctype="multipart/form-data">
+                        <div class="page-header">
+                            <h4>基本信息填写</h4>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">姓名:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="userRealname"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">性别：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="gender"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">年龄:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="userage"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">婚否：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="isMarriage"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">身高:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="userHeight"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">学历：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="userEducation"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">职业：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="userOccupation"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">薪资：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="userSalary"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">电话号码:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="userphone"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">生日:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="userBirthday"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">籍贯:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="usernative"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">期望结婚时间:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="userMarrytime"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">身份证:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="userIdcard"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">爱好:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="userInterest"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否有房:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="userHouse"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">是否有车:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="userCar"></p>
+                            </div>
+                        </div>
+                    <div class="page-header">
+                        <h4>会员信息</h4>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">卡类型:</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="vipGrade"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">约见次数:</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="vipAppointment"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">会员办理时间:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="vipCreatetime"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">会员过期时间:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="vipEndtime"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">押金:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userWallet"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">余额:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userDeposit"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">赠送免费参与:</label>
+                        <div class="form-group">
+                            <p class="form-control-static" id="userFree"></p>
+                        </div>
+                    </div>
+                    <div class="zoyq">
+                        <div class="page-header">
+                            <h4>择偶要求</h4>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">年龄:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateAge"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">身高:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateHeight"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">薪资:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateSalary"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">学历：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateEducation"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">期望结婚时间:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="mateMarrytime"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">婚姻状况：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateMarriage"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">籍贯：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateNative"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">信仰：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateBelief"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">饮酒：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateDrink"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">抽烟：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateSmoking"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">有无子女：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="isChildren"></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="upateappointment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title">处理约见</h4>
+                <div class="modal-body">
+                    <form id="formupdatemate" method="post" class="form-horizontal">
+                        <input type="text" name="id" class="form-control content" id="id" placeholder="id"
+                               style="display: none;">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">约见状态:</label>
+                            <div class="col-sm-3">
+                                <select name="status" id="status" class="selectpicker show-tick form-control">
+                                    <option value="0">约见中</option>
+                                    <option value="1">拒绝</option>
+                                    <option value="2">同意</option>
+                                </select>
+                            </div>
+                            <label class="col-sm-2 control-label">后台处理状态:</label>
+                            <div class="col-sm-3">
+                                <select name="managerStatus" id="managerStatus" class="selectpicker show-tick form-control">
+                                    <option value="0">未处理</option>
+                                    <option value="1">已处理</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">后台处理描述:</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows="3" id="managerString" name="managerString"></textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                        </button>
+                        <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
+                                class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript">
+    path="https://www.thy66.cn/pe/peach";
+    //添加
+    $(function () {
+
+        operate.operateInit();
+    });
+    var operate = {
+        operateInit: function () {
+            this.selectbootstrapTable();//创建table
+            selsctuserallInfo(); //个人全部信息的展示
+            this.updateappointment();
+        },
+        selectbootstrapTable: function () {
+            //创建table
+            $("#managertable").bootstrapTable({
+                columns: [
+                    {
+                        field: 'id',
+                        title: '序号'
+                    },
+                    {
+                        field: 'myuser.userRealname',
+                        title: '约见者',
+                        formatter:appointmentusermy,
+                    },
+                    {
+                        field: 'youuser.userRealname',
+                        title: '被约见者',
+                        formatter:appointmentuseryou,
+                    },
+                    {
+                        field: 'status',
+                        title: '约见状态',
+                        formatter:pdAppoinmentstatus,
+                    },
+                    {
+                        field: 'createTime',
+                        title: '创建时间',
+                    },
+                    {
+                        field: 'managerStatus',
+                        title: '后台处理状态',
+                        formatter:pdAppoinmentmanagerStatus,
+                    },
+                    {
+                        field: 'managerString',
+                        title: '处理状态描述'
+                    },
+                    {
+                        field: 'id',
+                        title: '操作',
+                        align: 'center',
+                        formatter: actionforxg,
+                    },
+                ],
+                method: 'GET',
+                url: path+'/manager/all/apponintment',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataField: "data",
+                dataType: "json",
+                toolbar: '#toobar',//工具列
+                striped: true,//隔行换色
+                cache: false,//禁用缓存
+                pagination: true,//启动分页
+                sidePagination: 'client',//分页方式
+                pageNumber: 1,//初始化table时显示的页码
+                pageSize: 10,//每页条目
+                showFooter: false,//是否显示列脚
+                showPaginationSwitch: true,//是否显示 数据条数选择框
+                sortable: true,//排序
+                sortOrder:"desc",
+                sortName : 'createTime',
+                sidePagination:"client",
+                search: true,//启用搜索
+                showColumns: true,//是否显示 内容列下拉框
+                showRefresh: true,//显示刷新按钮
+                idField: 'SystemCode',//key值栏位
+                clickToSelect: true,//点击选中checkbox
+                // singleSelect: true,//启用单行选中
+                //得到查询的参数
+                queryParams : function(params) {
+                    return {
+                        limit : params.limit,
+                        offset : params.offset,
+                        sort : params.sort,
+                        order : params.order
+                    };
+                },
+            });
+        },
+
+        updateappointment:function () {
+            $("#upateappointment").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);  //当前模态框
+                var modalId = btnThis.data('id');
+                modal.find('#id').val(btnThis.closest('tr').find('td').eq(0).text());
+                $('#status').selectpicker('val',pdxgstatus(btnThis.closest('tr').find('td').eq(3).text()));
+                $('#managerStatus').selectpicker('val',pdxgmanagerStatus(btnThis.closest('tr').find('td').eq(5).text()));
+                modal.find('#managerString').val(btnThis.closest('tr').find('td').eq(6).text());
+                //先解除绑定
+                $("#btn_submit").unbind('click');
+                $("#btn_submit").on('click',function () {
+                    $('#formactivity').ajaxSubmit({
+                        type: "post",
+                        dataType: 'JSON',
+                        processData:false,
+                        mimeType: 'multipart/form-data',
+                        url: path+"/manager/upapponintment",
+                        data: $("#formupdatemate").serializeArray(),
+                        success: function (data) {
+                            if(data.status){
+                                alert(data.msg);
+                                $("#managertable").bootstrapTable('refresh');
+                            }else {
+                                alert(data.msg);
+                            }
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("出现错误!!");
+                        }
+                    });
+                });
+            });
+        },
+
+    }
+
+    //操作栏的格式化
+    function actionforxg(value) {
+        var id = value;
+        var result = "";
+        result +="<div style=\"margin:auto 0;\">";
+        result += "<a class='btn btn-xs blue' title='编辑' data-toggle=\"modal\" data-target=\"#upateappointment\" data-id=\""+id+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
+        result +="</div>";
+        return result;
+    }
+    function pdAppoinmentmanagerStatus(value) {
+        if (value==1){
+            return "已处理";
+        }else if(value==0){
+            return "未处理";
+        }
+    }
+    function pdAppoinmentstatus(value) {
+        if (value==1){
+            return "拒绝";
+        }else if (value==2) {
+            return "同意";
+        }else if(value==0){
+            return "约见中";
+        }
+    }
+
+    function pdxgmanagerStatus(value) {
+        if (value=="已处理"){
+            return 1;
+        }else if(value=="未处理"){
+            return 0;
+        }
+    }
+    function pdxgstatus(value) {
+        if (value=="拒绝"){
+            return 1;
+        }else if (value=="同意") {
+            return 2;
+        }else if(value=="约见中"){
+            return 0;
+        }
+    }
+
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.SignInMapper">
+    <resultMap id="BaseMapper" type="com.example.peach.pojo.SignIn">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="signin_time" jdbcType="DATE" property="signInTime"/>
+        <result column="signin_number" jdbcType="INTEGER" property="signInNumber"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,signin_time,signin_number,status,user_id
+    </sql>
+    <!--根据userId查询-->
+    <select id="selectByuserId" resultMap="BaseMapper" >
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM signin
+        WHERE user_id=#{userId,jdbcType=INTEGER}
+    </select>
+    <!--添加SignIn-->
+    <insert id="insertSignIn" parameterType="SignIn">
+        INSERT into signin(signin_time,user_id,signin_number)
+          VALUES(#{signInTime,jdbcType=DATE},#{userId,jdbcType=INTEGER},#{signInNumber,jdbcType=INTEGER})
+    </insert>
+    <!--根据userId修改签到时间-->
+    <update id="updateSignIn" parameterType="SignIn">
+        UPDATE signin
+        SET  signin_time=#{signInTime,jdbcType=DATE},signin_number=#{signInNumber,jdbcType=INTEGER}
+        WHERE  user_id=#{userId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

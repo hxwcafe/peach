@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <!--jquery-->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!--bootstrap-->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--bootstrap-table-->
+    <script src="bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <!--select选择-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="bootstrap-select-1.13.2/js/bootstrap-select.js"></script>
+
+    <link rel="stylesheet" href="bootstrap-table-master/src/bootstrap-table.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="page-header">
+        <h3>参加活动用户</h3>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" id="toobar" role="group" aria-label="...">
+                    <button class="btn btn-default" id="selctmovie"  data-toggle="modal" data-target="#movie" >
+                        <span class="glyphicon glyphicon-phone-alt"></span>邀请查询
+                    </button>
+                    <button class="btn btn-default" id="acticityExcel">
+                        <span class="glyphicon glyphicon-print"></span>导出
+                    </button>
+                    <button class="btn btn-default" id="actorderadd" data-toggle="modal" data-target="#addActOrder" >
+                        <span class="glyphicon glyphicon-plus"></span>添加
+                    </button>
+                </div>
+                <table id="user" class="table table-hover text-center ">
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg" id="movie" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">活动单信息</h4>
+                    <table id="movietable" class="table table-hover text-center ">
+                        <thead>
+                        <tr>
+                            <th>活动序号</th>
+                            <th>发送邀请日期</th>
+                            <th>邀请者</th>
+                            <th>性别</th>
+                            <th>手机号码</th>
+                            <th>被邀请者</th>
+                            <th>性别</th>
+                            <th>手机号码</th>
+                            <th>状态</th>
+                        </tr>
+                        </thead>
+                        <thead id="movietable_thead">
+
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="actorder_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">活动单信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formupdatemate" method="post" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动序号:</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static" id="activityId"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动单时间:</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static" id="orderNumber"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动状态:</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static" id="status"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动签到:</label>
+                            <div class="col-sm-8">
+                                <p class="form-control-static" id="signIn"></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateActOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">修改活动单信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formupdateActOrder" method="post" class="form-horizontal">
+                        <input type="text" name="id" class="form-control content" id="id" placeholder="id"
+                               style="display: none;">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动状态:</label>
+                            <div class="col-sm-3">
+                                <select name="status" id="ustatus"  class="selectpicker show-tick form-control">
+                                    <option value="0">邀约中(如果是本周活动,为签到)</option>
+                                    <option value="1">付款中</option>
+                                    <option value="2">付款完成,等待打卡</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">活动签到:</label>
+                            <div class="col-sm-3">
+                                <select name="signIn" id="usignIn" class="selectpicker show-tick form-control">
+                                    <option value="0">未签到</option>
+                                    <option value="1">已签到</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                        </button>
+                        <button type="button" id="update_actOrder" class="btn btn-primary" data-dismiss="modal"><span
+                                class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addActOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">报名活动</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formaddActOrder" method="post" class="form-horizontal">
+                        <input type="text" name="activityId" id="addactivityId" class="form-control content"
+                               style="display: none;">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户id:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" name="userId" placeholder="用户id">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                        </button>
+                        <button type="button" id="add_actOrder" class="btn btn-primary" data-dismiss="modal"><span
+                                class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>添加
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    path="https://www.thy66.cn/pe/peach";
+    //添加
+    $(function () {
+        operate.operateInit();
+    });
+    var operate = {
+        operateInit: function () {
+            this.selectbootstrapTable();//创建table
+            this.activityExcel();//导出excel
+            this.actorderuser();//查询订单状态
+            this.selectmovieTable();//约伴电影邀请
+            this.updateActOrder();//修改活动订单
+            this.addactOrder();//添加活动单
+        },
+        selectA: function () {
+            $("#allA").on("click",function () {
+                $('#user').bootstrapTable('refresh', {url: path+"/user/usera"});
+            });
+        },
+        selectB: function () {
+            $("#allB").on("click",function () {
+                $('#user').bootstrapTable('refresh', {url: path+"/user/userb"});
+            });
+        },
+        selectbootstrapTable: function () {
+            //创建table
+            $("#user").bootstrapTable({
+                columns: [
+                    {
+                        field: 'userRealname',
+                        title: '姓名'
+                    },
+                    {
+                        field: 'gender',
+                        title: '性别',
+                        formatter:pdsex,
+                    },
+                    {
+                        field: 'userage',
+                        title: '年龄',
+                        sortable:true,
+                    },
+                    {
+                        field: 'userHeight',
+                        title: '身高',
+                        sortable:true,
+                    },
+                    {
+                        field: 'userEducation',
+                        title: '学历',
+                    },
+                    {
+                        field: 'userOccupation',
+                        title: '职业',
+                    },
+                    {
+                        field: 'userSalary',
+                        title: '薪资',
+                    },
+                    {
+                        field: 'isMarriage',
+                        title: '婚否',
+                        formatter:pdhf,
+                    },
+                    {
+                        field: 'userphone',
+                        title: '手机号码',
+                    },
+                    {
+                        field: 'userAddress',
+                        title: '地址',
+                    },
+                    {
+                        field: 'id',
+                        title: '活动订单',
+                        align: 'center',
+                        formatter: actorder,
+                    },
+                    {
+                        field: 'id',
+                        title: '操作',
+                        align: 'center',
+                        formatter: actionforxg,
+                    },
+                ],
+                method: 'get',
+                url: path+'/mactivity/allactivityuser',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataField: "res",
+                dataType: "json",
+                toolbar: '#toobar',//工具列
+                striped: true,//隔行换色
+                cache: false,//禁用缓存
+                pagination: true,//启动分页
+                sidePagination: 'server',//分页方式
+                pageNumber: 1,//初始化table时显示的页码
+                pageSize: 10,//每页条目
+                showFooter: false,//是否显示列脚
+                showPaginationSwitch: true,//是否显示 数据条数选择框
+                sortable: true,//排序
+                sortOrder:"asc",//排序方式
+                sidePagination:"client",
+                search: true,//启用搜索
+                showColumns: true,//是否显示 内容列下拉框
+                showRefresh: true,//显示刷新按钮
+                clickToSelect: true,//点击选中checkbox
+                queryParams:queryParams,//url参数
+
+            });
+        },
+        selectmovieTable:function(){
+            $("#movie").on('show.bs.modal', function (event) {
+                var activityId = GetRequest("activityId");
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);
+                $.ajax({
+                    type: "get",
+                    url: path+"/mactivity/actmovie",
+                    dataType: 'JSON',
+                    data: {"activityId":activityId},
+                    success: function (data) {
+                        if(data[0]==null){
+                            var str = "";
+                            str += "<tr>"+ "<td colspan=\"9\">" +"没有邀约信息"+ "</td>" +"</tr>";
+                            document.getElementById("movietable_thead").innerHTML = str;
+                        }else {
+                            var str = "";
+                            for (i in data) {
+                                str += "<tr>" +
+                                    "<td>" + data[i].activityId + "</td>" +
+                                    "<td>" + data[i].createtime + "</td>" +
+                                    "<td>" + data[i].myuser.userRealname + "</td>" +
+                                    "<td>" + data[i].myuser.gender + "</td>" +
+                                    "<td>" + data[i].myuser.userphone + "</td>" +
+                                    "<td>" + data[i].youuser.userRealname + "</td>" +
+                                    "<td>" + data[i].youuser.gender + "</td>" +
+                                    "<td>" + data[i].youuser.userphone + "</td>" +
+                                    "<td>" + pdmoviestatus(data[i].status) + "</td>" +
+                                    "</tr>";
+                            }
+
+                            document.getElementById("movietable_thead").innerHTML = str;
+                        }
+                    },
+                    error: function () {
+                        alert("错误");
+                    }
+                });
+            });
+        },
+        activityExcel:function () {
+            $("#acticityExcel").on("click",function () {
+                var activityId = GetRequest("activityId");
+                $.ajax({
+                    type: "post",
+                    url: path+"/mactivity/actexcel",
+                    dataType: 'JSON',
+                    data: {"activityId":activityId},
+                    success: function (data) {
+
+                    },
+                    error: function () {
+                        alert("错误");
+                    }
+                });
+            });
+        },
+        actorderuser:function () {
+            $("#actorder_user").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);  //当前模态框
+                var modalId = btnThis.data('id');   //解析出data-id的内容
+                $.ajax({
+                    type: "get",
+                    dataType: 'JSON',
+                    url: path + "/actorder/queryactorder",
+                    data: {"userId": modalId,"activityId":GetRequest("activityId")},
+                    success: function (data) {
+                        modal.find('#id').val(modalId);
+                        document.getElementById("activityId").innerHTML=data.data.activityId;
+                        document.getElementById("orderNumber").innerHTML=data.data.orderNumber;
+                        document.getElementById("status").innerHTML=pdstatus(data.data.status);
+                        document.getElementById("signIn").innerHTML=pdsign(data.data.signIn);
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出现错误!!");
+                    }
+                });
+
+            })
+        },
+        updateActOrder:function () {
+            $("#updateActOrder").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);  //当前模态框
+                var modalId = btnThis.data('id');   //解析出data-id的内容
+                $.ajax({
+                    type: "get",
+                    dataType: 'JSON',
+                    url: path + "/actorder/queryactorder",
+                    data: {"userId": modalId, "activityId": GetRequest("activityId")},
+                    success: function (data) {
+                        modal.find('#id').val(data.data.id);
+                        $('#ustatus').selectpicker('val', data.data.status);
+                        $('#usignIn').selectpicker('val', data.data.signIn);
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出现错误!!");
+                    }
+                });
+                $("#update_actOrder").unbind('click');
+                $("#update_actOrder").on('click', function (e) {
+                    $.ajax({
+                        type: "post",
+                        dataType: 'JSON',
+                        url: path + "/mactivity/upactorder",
+                        data: $("#formupdateActOrder").serializeArray(),
+                        success: function (data) {
+                            alert(data.msg);
+                            $("#user").bootstrapTable('refresh');
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("出现错误!!");
+                        }
+                    });
+                });
+            })
+        },
+        addactOrder:function () {
+            $("#addActOrder").on('show.bs.modal', function (event) {
+                var modal = $(this);  //当前模态框
+                modal.find('#addactivityId').val(GetRequest("activityId"));
+                $("#add_actOrder").on('click', function (e) {
+                    if(!isRealNum($("input[name=userId]").val())){
+                        return false;
+                    }
+                    $.ajax({
+                        type: "post",
+                        dataType: 'JSON',
+                        url: path + "/actorder/insertactorder",
+                        data: $("#formaddActOrder").serializeArray(),
+                        success: function (data) {
+                            alert(pdaddactOrder(data.status,data.data));
+                            $("#user").bootstrapTable('refresh');
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("出现错误!!");
+                        }
+                    });
+                })
+            })
+        }
+    }
+
+    //操作栏的格式化
+    function actorder(value, row, index) {
+        var id = value;
+        var result = "";
+        result += "<a class='btn btn-xs blue' title='活动订单信息' data-toggle=\"modal\" data-target=\"#actorder_user\" data-id=\""+id+"\">活动订单信息</a>";
+        return result;
+    }
+    function actionforxg(value, row, index) {
+        var id = value;
+        var result = "";
+        result += "<a class='btn btn-xs blue' title='修改活动订单' data-toggle=\"modal\" data-target=\"#updateActOrder\" data-id=\""+id+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
+        result += "<a class='btn btn-xs blue' title='删除用户' onclick=\"actOrderDelete('" + id + "')\"><span class='glyphicon glyphicon-remove'></span></a>";
+        return result;
+    }
+    function actOrderDelete(id) {
+        var t = confirm("您确认要删除该用户吗？");
+        if (t == false) {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "get",
+                dataType: 'JSON',
+                url: path + "/actorder/queryactorder",
+                data: {"userId": id, "activityId": GetRequest("activityId")},
+                success: function (data) {
+                    uporder(data.data.id);
+                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("出现错误!!");
+                }
+            });
+            function uporder(actorder_id) {
+                $.ajax({
+                    type: "post",
+                    url: path + "/mactivity/delactorder",
+                    data: {"id": actorder_id},
+                    success: function (data, status) {
+                        alert(data.msg);
+                        $("#user").bootstrapTable('refresh');
+                    },
+                    error: function () {
+                        alert("错误");
+                    }
+                });
+            }
+        }
+    }
+    //判断男女
+    function pdsex(value) {
+        if (value==1){
+            return "男";
+        }else if (value==2) {
+            return "女";
+        }else if(value==0){
+            return "未知";
+        }
+    }
+    function pdmoviestatus(value) {
+        if (value==1){
+            return "拒绝";
+        }else if (value==2) {
+            return "同意";
+        }else if(value==0){
+            return "邀约中";
+        }
+    }
+    //判断婚否
+    function pdhf(value){
+        if(value==1){
+            return "离异";
+        }else{
+            return "未婚";
+        }
+    }
+    function pdstatus(value) {
+        if(value==0){
+            return "邀约中(如果是本周活动,为签到)";
+        }else if(value==1){
+            return "付款中";
+
+        }else if(value==2){
+            return "付款完成,等待打卡";
+        }
+    }
+    function  pdsign(value) {
+        if(value==0){
+            return "未签到";
+        }else if(value==1){
+            return "已签到";
+        }
+    }
+    function pdaddactOrder(boovalue,value) {
+        if(boovalue==true){
+            return "报名成功";
+        }else {
+            if (value == 0) {
+                return "没有注册";
+            } else if (value == 1) {
+                return "用户不是会员";
+            } else if (value == 2) {
+                return "用户会员已过期";
+            } else if (value == 3) {
+                return "报名失败";
+            } else if (value == 4) {
+                return "用户已报名";
+            }
+        }
+    }
+    function isRealNum(val){
+        // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除
+        if(val === "" || val ==null){
+            alert("不能为null");
+            return false;
+        }
+        if(!isNaN(val)){
+            return true;
+        }else{
+            alert("必须输入数字");
+            return false;
+        }
+    }
+    //获取url中"?"符后的字串
+    function GetRequest(value) {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+            }
+        }
+        var tag=theRequest[value];
+        return tag;
+    }
+    //bootstarp table url:参数
+    function queryParams () {
+        return {
+            activityId:GetRequest("activityId"),
+        };
+    }
+
+</script>
+
+</html>

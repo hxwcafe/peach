@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.PublicMapper">
+    <resultMap id="ExtensionMapping" type="com.example.peach.pojo.SignIn">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="signin_time" jdbcType="DATE" property="signInTime"/>
+        <result column="signin_number" jdbcType="INTEGER" property="signInNumber"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    </resultMap>
+    <!--根据id查询字典表value-->
+    <select id="selectDictionariesByKey" resultType="java.lang.String">
+      select d_value from dictionaries where d_key = #{d_key}
+    </select>
+    <!--向推广表中插入一条数据-->
+    <insert id="insertExtension" >
+        insert into extension values(null,#{eid},#{uid},#{isReturn},now(),now())
+    </insert>
+    <!--查询推广表中newid条数,用于判断刷余额-->
+    <select id="selectExtensionCountById" resultType="java.lang.Integer">
+        select count(*) from extension where new_id = #{uid}
+    </select>
+</mapper>

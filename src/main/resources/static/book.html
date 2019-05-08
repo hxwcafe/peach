@@ -1,0 +1,318 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <!--jquery-->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!--bootstrap-->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--bootstrap-table-->
+    <script src="bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="bootstrap-table-master/src/bootstrap-table.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="page-header">
+        <h3>会员卡商品管理</h3>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" id="toobar" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" id="table_Id" data-toggle='modal'
+                            data-target='#myModal'>
+                        <span class="glyphicon glyphicon-plus"></span>新增
+                    </button>
+                </div>
+                <table id="myTable" class="table table-hover text-center ">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加会员卡商品</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formTest" method="post">
+                    <div class="form-group">
+                        <label for="txt_departmentname">商品名称</label>
+                        <input type="text" name="commodityName" class="form-control content" id="txt_departmentname"
+                               placeholder="商品名称">
+                        <label for="txt_departmentname">商品描述</label>
+                        <input type="text" name="commodityBody" class="form-control" placeholder="商品描述">
+                        <label for="txt_departmentname">约见次数</label>
+                        <input type="text" name="commodityFrequency" class="form-control" placeholder="约见次数">
+                        <label for="txt_departmentname">报价</label>
+                        <input type="text" name="commodityPrice" class="form-control" placeholder="报价">
+                        <label for="txt_departmentname">首次进店优惠</label>
+                        <input type="text" name="firstdiscount" class="form-control" placeholder="首次进店优惠">
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="upModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabe2">修改会员卡商品</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formupdate" method="post">
+                    <div class="form-group">
+                        <input type="text" name="id" class="form-control content" id="id" placeholder="id"
+                               style="display: none;">
+                        <label for="txt_departmentname">商品名称</label>
+                        <input type="text" name="commodityName" class="form-control content" id="commodityName"
+                               placeholder="商品名称">
+                        <label for="txt_departmentname">商品描述</label>
+                        <input type="text" name="commodityBody" class="form-control" id="commodityBody"
+                               placeholder="商品描述">
+                        <label for="txt_departmentname">约见次数</label>
+                        <input type="text" name="commodityFrequency" class="form-control" id="commodityFrequency"
+                               placeholder="约见次数">
+                        <label for="txt_departmentname">报价</label>
+                        <input type="text" name="commodityPrice" class="form-control" id="commodityPrice"
+                               placeholder="报价">
+                        <label for="txt_departmentname">首次进店优惠</label>
+                        <input type="text" name="firstdiscount" class="form-control" id="firstdiscount"
+                               placeholder="首次进店优惠">
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="update_submit" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+path="https://www.thy66.cn/pe/peach";
+    //添加
+    $(function () {
+        operate.operateInit();
+    });
+    var operate = {
+        operateInit: function () {
+            this.selectbootstrapTable();   //创建table
+            this.operateSave();//添加
+        },
+        operateSave: function () {
+            $("#btn_submit").click(function () {
+                $.ajax({
+                    type: "post",
+                    dataType: 'JSON',
+                    url:path+ "/manager/addcommodity",
+                    data: $("#formTest").serializeArray(),
+                    success: function (data) {
+                        $("#myTable").bootstrapTable('refresh');
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("添加失败");
+                    }
+                });
+            });
+        },
+        selectbootstrapTable: function () {
+
+            //创建table
+            $("#myTable").bootstrapTable({
+                columns: [
+                    {
+                        field: 'id',
+                        title: 'id',
+                        titleTooltip: 'young for you'
+                    },
+                    {
+                        field: 'commodityName',
+                        title: '商品名称'
+                    },
+                    {
+                        field: 'commodityBody',
+                        width: 300,
+                        title: '商品描述'
+                    },
+                    {
+                        field: 'commodityFrequency',
+                        title: '约见次数'
+                    },
+                    {
+                        field: 'commodityPrice',
+                        title: '报价'
+                    },
+                    {
+                        field: 'firstdiscount',
+                        title: '首进优惠减价'
+                    },
+                    {
+                        field: 'createTime',
+                        title: '创建时间'
+                    },
+                    {
+                        field: 'updateTime',
+                        title: ' 修改时间'
+                    },
+                    {
+                        field: 'id',
+                        title: '操作',
+                        align: 'center',
+                        formatter: actionforxg,
+                    },
+
+                ],
+                method: 'GET',
+                url: path+'/commvip/all',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataField: "data",
+                dataType: "json",
+                toolbar: '#toobar',//工具列
+                striped: true,//隔行换色
+                cache: false,//禁用缓存
+                pagination: true,//启动分页
+                sidePagination: 'client',//分页方式
+                pageNumber: 1,//初始化table时显示的页码
+                pageSize: 4,//每页条目
+                showFooter: false,//是否显示列脚
+                showPaginationSwitch: true,//是否显示 数据条数选择框
+                sortable: true,//排序
+                sortOrder:"asc",
+                sortName : 'createTime',
+                sidePagination:"client",
+                search: true,//启用搜索
+                showColumns: true,//是否显示 内容列下拉框
+                showRefresh: true,//显示刷新按钮
+                idField: 'SystemCode',//key值栏位
+                clickToSelect: true,//点击选中checkbox
+                // singleSelect: true,//启用单行选中
+                //得到查询的参数
+                queryParams : function(params) {
+                    return {
+                        limit : params.limit,
+                        offset : params.offset,
+                        sort : params.sort,
+                        order : params.order
+                    };
+                },
+            });
+        },
+    }
+
+    //操作栏的格式化
+    function actionforxg(value, row, index) {
+        var id = value;
+        var result = "";
+        result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑' data-toggle=\"modal\" data-target=\"#upModal\" data-id=\"edit\"><span class='glyphicon glyphicon-pencil'></span></a>";
+        result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteById('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+
+        return result;
+    }
+
+    function EditViewById(id) {
+        $("#upModal").on('show.bs.modal', function (event) {
+            var btnThis = $(event.relatedTarget); //触发事件的按钮
+            var modal = $(this);  //当前模态框
+            // var modalId = btnThis.data('id');   //解析出data-id的内容
+            modal.find('#id').val(btnThis.closest('tr').find('td').eq(0).text());
+            modal.find('#commodityName').val(btnThis.closest('tr').find('td').eq(1).text());
+            modal.find('#commodityBody').val(btnThis.closest('tr').find('td').eq(2).text());
+            modal.find('#commodityFrequency').val(btnThis.closest('tr').find('td').eq(3).text());
+            modal.find('#commodityPrice').val(btnThis.closest('tr').find('td').eq(4).text());
+            modal.find('#firstdiscount').val(btnThis.closest('tr').find('td').eq(5).text());
+            $("#update_submit").click(function () {
+                $.ajax({
+                    type: "post",
+                    dataType: 'JSON',
+                    url: "http://localhost:8080/manager/xgcommodity",
+                    data: $("#formupdate").serializeArray(),
+                    success: function (data) {
+                        $("#myTable").bootstrapTable('refresh');
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("添加失败");
+                    }
+                });
+            });
+        });
+    }
+
+    //删除
+    function DeleteById(id) {
+        var t = confirm("您确认要删除选中的内容吗？");
+        if (t == false) {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8080/manager/sccommodity",
+                data: {"id": id},
+                success: function (data, status) {
+                    alert(data.msg);
+                    $("#myTable").bootstrapTable('refresh');
+                },
+                error: function () {
+                    alert("Failed");
+                }
+            });
+        }
+    }
+    // //请求服务数据时所传参数
+    // function queryParams(params) {
+    //     return {
+    //         pageSize: params.limit, //每一页的数据行数，默认是上面设置的10(pageSize)
+    //         pageIndex: params.offset / params.limit + 1, //当前页面,默认是上面设置的1(pageNumber)
+    //         param: "Your Param" //这里是其他的参数，根据自己的需求定义，可以是多个
+    //     }
+    // }
+    //请求成功方法
+    function responseHandler(result) {
+        var errcode = result.errcode;//在此做了错误代码的判断
+        if (errcode != 0) {
+            alert("错误代码" + errcode);
+            return;
+        }
+        //如果没有错误则返回数据，渲染表格
+        return {
+            // total : result.dataLength, //总页数,前面的key必须为"total"
+            data: result.data //行数据，前面的key要与之前设置的dataField的值一致.
+        };
+    };
+    //刷新表格数据,点击你的按钮调用这个方法就可以刷新
+    function refresh() {
+        $('#myTable').bootstrapTable('refresh', {url: "http://localhost:8080/commvip/all"});
+    }
+
+
+</script>
+
+</html>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.MovieInvitationMapper">
+  <resultMap id="BaseResultMap" type="com.example.peach.pojo.MovieInvitation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="myid" jdbcType="INTEGER" property="myid" />
+    <result column="youid" jdbcType="INTEGER" property="youid" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap id="MovieMYuser" type="com.example.peach.pojo.merge.MovieMYuser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="myid" jdbcType="INTEGER" property="myid" />
+    <result column="youid" jdbcType="INTEGER" property="youid" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <collection property="myuser" column="myid" ofType="com.example.peach.pojo.User">
+      <id column="myid" jdbcType="INTEGER" property="id" />
+      <result column="user_nickname" jdbcType="VARCHAR" property="nickName" />
+      <result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+      <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+      <result column="user_phone" jdbcType="VARCHAR" property="userphone" />
+      <result column="sex" jdbcType="INTEGER" property="gender" />
+    </collection>
+    <collection property="youuser" column="youid" ofType="com.example.peach.pojo.User">
+      <id column="youid" jdbcType="INTEGER" property="id" />
+      <result column="youuser_nickname" jdbcType="VARCHAR" property="nickName" />
+      <result column="youuser_realname" jdbcType="VARCHAR" property="userRealname" />
+      <result column="youuser_phone" jdbcType="VARCHAR" property="userphone" />
+      <result column="youuser_sex" jdbcType="INTEGER" property="gender" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, activity_id, myid, youid, createtime, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from movie_invitation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from movie_invitation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.peach.pojo.MovieInvitation">
+    insert into movie_invitation (id, activity_id, myid, 
+      youid, createtime, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{myid,jdbcType=INTEGER}, 
+      #{youid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.peach.pojo.MovieInvitation">
+    insert into movie_invitation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="myid != null">
+        myid,
+      </if>
+      <if test="youid != null">
+        youid,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="myid != null">
+        #{myid,jdbcType=INTEGER},
+      </if>
+      <if test="youid != null">
+        #{youid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.peach.pojo.MovieInvitation">
+    update movie_invitation
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where myid = #{myid,jdbcType=INTEGER} and youid = #{youid,jdbcType=INTEGER} and activity_id=#{activityId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.peach.pojo.MovieInvitation">
+    update movie_invitation
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      myid = #{myid,jdbcType=INTEGER},
+      youid = #{youid,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectStatusByMYA" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from movie_invitation
+    where myid = #{myid,jdbcType=INTEGER} and youid = #{youid,jdbcType=INTEGER} and activity_id=#{activityId}
+  </select>
+  <select id="selectStatusByMA" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  select
+  <include refid="Base_Column_List" />
+  from movie_invitation
+  where myid = #{myid,jdbcType=INTEGER} and activity_id=#{activityId}
+</select>
+  <select id="selectStatusByYA" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from movie_invitation
+    where youid = #{youid,jdbcType=INTEGER} and activity_id=#{activityId}
+  </select>
+  <select id="selectMovieMYuser" resultMap="MovieMYuser" parameterType="java.lang.Integer">
+    select m.*,um.*,uy.user_realname youuser_realname,uy.sex youuser_sex,uy.user_phone youuser_phone
+    from movie_invitation as m,user as um,user as uy
+    where m.activity_id = #{activityId} and um.id = m.myid and uy.id = m.youid;
+  </select>
+</mapper>

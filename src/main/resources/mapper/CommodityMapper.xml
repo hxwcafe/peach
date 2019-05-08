@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.CommodityMapper">
+  <resultMap id="BaseResultMap" type="com.example.peach.pojo.Commodity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
+    <result column="commodity_body" jdbcType="VARCHAR" property="commodityBody" />
+    <result column="commodity_frequency" jdbcType="INTEGER" property="commodityFrequency" />
+    <result column="commodity_price" jdbcType="DECIMAL" property="commodityPrice" />
+    <result column="firstdiscount" jdbcType="DECIMAL" property="firstdiscount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, commodity_name, commodity_body, commodity_frequency, commodity_price, firstdiscount, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from peach_commodity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from peach_commodity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.peach.pojo.Commodity">
+    insert into peach_commodity (id, commodity_name, commodity_body, 
+      commodity_frequency, commodity_price, firstdiscount, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, #{commodityBody,jdbcType=VARCHAR}, 
+      #{commodityFrequency,jdbcType=INTEGER}, #{commodityPrice,jdbcType=DECIMAL}, #{firstdiscount,jdbcType=DECIMAL}, 
+      now(),now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.peach.pojo.Commodity">
+    insert into peach_commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="commodityName != null">
+        commodity_name,
+      </if>
+      <if test="commodityBody != null">
+        commodity_body,
+      </if>
+      <if test="commodityFrequency != null">
+        commodity_frequency,
+      </if>
+      <if test="commodityPrice != null">
+        commodity_price,
+      </if>
+      <if test="firstdiscount != null">
+        firstdiscount,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="commodityName != null">
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityBody != null">
+        #{commodityBody,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityFrequency != null">
+        #{commodityFrequency,jdbcType=INTEGER},
+      </if>
+      <if test="commodityPrice != null">
+        #{commodityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="firstdiscount != null">
+        #{firstdiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.peach.pojo.Commodity">
+    update peach_commodity
+    <set>
+      <if test="commodityName != null">
+        commodity_name = #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityBody != null">
+        commodity_body = #{commodityBody,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityFrequency != null">
+        commodity_frequency = #{commodityFrequency,jdbcType=INTEGER},
+      </if>
+      <if test="commodityPrice != null">
+        commodity_price = #{commodityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="firstdiscount != null">
+        firstdiscount = #{firstdiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = now(),
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.peach.pojo.Commodity">
+    update peach_commodity
+    set commodity_name = #{commodityName,jdbcType=VARCHAR},
+      commodity_body = #{commodityBody,jdbcType=VARCHAR},
+      commodity_frequency = #{commodityFrequency,jdbcType=INTEGER},
+      commodity_price = #{commodityPrice,jdbcType=DECIMAL},
+      firstdiscount = #{firstdiscount,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectCommodity" parameterType="List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from peach_commodity;
+  </select>
+</mapper>

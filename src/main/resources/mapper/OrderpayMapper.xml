@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.OrderpayMapper">
+  <resultMap id="BaseResultMap" type="com.example.peach.pojo.Orderpay">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="total_fee" jdbcType="DECIMAL" property="totalFee" />
+    <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />
+    <result column="body" jdbcType="VARCHAR" property="body" />
+    <result column="trade_status" jdbcType="VARCHAR" property="tradeStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, out_trade_no, transaction_id, user_id, trade_type, total_fee, commodity_id, body, 
+    trade_status, create_time, update_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_pay
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_pay
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.peach.pojo.Orderpay">
+    insert into order_pay (id, out_trade_no, transaction_id, 
+      user_id, trade_type, total_fee, 
+      commodity_id, body, trade_status, 
+      create_time, update_time, end_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{outTradeNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{tradeType,jdbcType=VARCHAR}, #{totalFee,jdbcType=DECIMAL}, 
+      #{commodityId,jdbcType=INTEGER}, #{body,jdbcType=VARCHAR}, #{tradeStatus,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.peach.pojo.Orderpay">
+    insert into order_pay
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="tradeType != null">
+        trade_type,
+      </if>
+      <if test="totalFee != null">
+        total_fee,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="body != null">
+        body,
+      </if>
+      <if test="tradeStatus != null">
+        trade_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        #{totalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="commodityId != null">
+        #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="body != null">
+        #{body,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeStatus != null">
+        #{tradeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.example.peach.pojo.Orderpay">
+    update order_pay
+    set out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      trade_type = #{tradeType,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=DECIMAL},
+      commodity_id = #{commodityId,jdbcType=INTEGER},
+      body = #{body,jdbcType=VARCHAR},
+      trade_status = #{tradeStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateOrder_statusBytrade_status" parameterType="com.example.peach.pojo.Orderpay">
+    update order_pay
+    <set>
+    <if test="outTradeNo != null">
+      out_trade_no = #{outTradeNo,jdbcType=VARCHAR}
+    </if>
+    <if test="transactionId != null">
+      transaction_id = #{transactionId,jdbcType=VARCHAR}
+    </if>
+    <if test="userId != null">
+      user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="tradeType != null">
+      trade_type = #{tradeType,jdbcType=VARCHAR}
+    </if>
+    <if test="body != null">
+      body = #{body,jdbcType=VARCHAR}
+    </if>
+    <if test="tradeStatus != null">
+      trade_status = #{tradeStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null">
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updateTime != null">
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="endTime != null">
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    </if>
+    </set>
+    where transaction_id = #{transactionId,jdbcType=VARCHAR}
+
+  </update>
+
+  <update id="updateOrder_statusByout_trade_no" parameterType="com.example.peach.pojo.Orderpay">
+    update order_pay
+    <set>
+    <if test="transactionId != null">
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+    </if>
+    <if test="tradeStatus != null">
+      trade_status = #{tradeStatus,jdbcType=VARCHAR},
+    </if>
+    <if test="createTime != null">
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="updateTime != null">
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="endTime != null">
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+    </if>
+    </set>
+    where out_trade_no = #{outTradeNo};
+  </update>
+
+  <select id="selectOrderByuserid" parameterType="com.example.peach.pojo.Orderpay" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_pay
+    where user_id = #{user_id,jdbcType=INTEGER} order BY end_time desc;
+  </select>
+
+  <delete id="deleteByout_trade_no" parameterType="java.lang.String">
+  delete from order_pay where out_trade_no = #{outTradeNo};
+  </delete>
+
+  <select id="selectByUseridAndCommodityid" parameterType="com.example.peach.pojo.Orderpay" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_pay
+     where
+     user_id=#{userid} and commodity_id = #{commodityid} and trade_status = #{tradeStatus}
+  </select>
+  
+  <select id="selectByouttradeno" parameterType="com.example.peach.pojo.Orderpay" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from  order_pay
+    where out_trade_no = #{outTradeNo}
+  </select>
+</mapper>

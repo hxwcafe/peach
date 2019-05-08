@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.AppointmentMapper">
+    <resultMap  id="BaseResultMap" type="com.example.peach.pojo.Appointment" >
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="myid" property="myid"/>
+        <result column="youid" property="youid"/>
+        <result column="createtime" property="createTime"/>
+        <result column="status" property="status"/>
+        <collection property="list" ofType="com.example.peach.pojo.merge.UAlbum">
+            <id column="youid" jdbcType="INTEGER" property="id" />
+            <result column="user_nickname" jdbcType="VARCHAR" property="nickName"/>
+            <result column="user_realname" jdbcType="VARCHAR" property="userRealname"/>
+            <result column="user_birthday" jdbcType="DATE" property="userBirthday"/>
+            <result column="user_phone" jdbcType="VARCHAR" property="userphone"/>
+            <result column="user_age" jdbcType="INTEGER" property="userage"/>
+            <result column="sex" jdbcType="INTEGER" property="gender"/>
+            <result column="country" jdbcType="VARCHAR" property="country"/>
+            <result column="province" jdbcType="VARCHAR" property="province"/>
+            <result column="city" jdbcType="VARCHAR" property="city"/>
+            <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+            <result column="user_autograph" jdbcType="VARCHAR" property="userAutograph"/>
+            <result column="user_occupation" jdbcType="VARCHAR" property="userOccupation"/>
+            <result column="is_marriage" jdbcType="BIT" property="isMarriage"/>
+            <result column="user_height" jdbcType="INTEGER" property="userHeight"/>
+            <result column="user_education" jdbcType="VARCHAR" property="userEducation"/>
+            <result column="user_salary" jdbcType="VARCHAR" property="userSalary"/>
+            <result column="user_interest" jdbcType="VARCHAR" property="userInterest"/>
+            <result column="user_label" jdbcType="VARCHAR" property="userLabel" />
+            <result column="user_jurisdiction" jdbcType="INTEGER" property="userJurisdiction"/>
+            <result column="user_idcard" jdbcType="CHAR" property="userIdcard"/>
+            <result column="headimgurl" jdbcType="VARCHAR" property="avatarUrl"/>
+            <result column="user_integral" jdbcType="INTEGER" property="userIntegral"/>
+            <result column="openid" jdbcType="VARCHAR" property="openid"/>
+            <result column="is_realname" jdbcType="BIT" property="isrealname"/>
+            <result column="user_native" jdbcType="VARCHAR" property="usernative"/>
+            <result column="unionid" jdbcType="VARCHAR" property="unionid"/>
+            <result column="user_marrytime" jdbcType="VARCHAR" property="userMarrytime"/>
+            <result column="user_newold" jdbcType="BIT" property="userNewold"/>
+            <result column="user_tips" jdbcType="BIT" property="userTips" />
+            <result column="user_house" jdbcType="INTEGER" property="userHouse" />
+            <result column="user_car" jdbcType="INTEGER" property="userCar" />
+            <result column="user_praise" jdbcType="INTEGER" property="userPraise" />
+            <result column="user_blacklist" jdbcType="INTEGER" property="userBlacklist" />
+            <result column="user_createtime" property="userCreatetime"/>
+        </collection>
+    </resultMap>
+    <resultMap  id="youBaseResultMap" type="com.example.peach.pojo.Appointment" >
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="myid" property="myid"/>
+        <result column="youid" property="youid"/>
+        <result column="createtime" property="createTime"/>
+        <result column="status" property="status"/>
+        <collection property="list" ofType="com.example.peach.pojo.merge.UAlbum">
+            <id column="myid" jdbcType="INTEGER" property="id" />
+            <result column="user_nickname" jdbcType="VARCHAR" property="nickName"/>
+            <result column="user_realname" jdbcType="VARCHAR" property="userRealname"/>
+            <result column="user_birthday" jdbcType="DATE" property="userBirthday"/>
+            <result column="user_phone" jdbcType="VARCHAR" property="userphone"/>
+            <result column="user_age" jdbcType="INTEGER" property="userage"/>
+            <result column="sex" jdbcType="INTEGER" property="gender"/>
+            <result column="country" jdbcType="VARCHAR" property="country"/>
+            <result column="province" jdbcType="VARCHAR" property="province"/>
+            <result column="city" jdbcType="VARCHAR" property="city"/>
+            <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+            <result column="user_autograph" jdbcType="VARCHAR" property="userAutograph"/>
+            <result column="user_occupation" jdbcType="VARCHAR" property="userOccupation"/>
+            <result column="is_marriage" jdbcType="BIT" property="isMarriage"/>
+            <result column="user_height" jdbcType="INTEGER" property="userHeight"/>
+            <result column="user_education" jdbcType="VARCHAR" property="userEducation"/>
+            <result column="user_salary" jdbcType="VARCHAR" property="userSalary"/>
+            <result column="user_interest" jdbcType="VARCHAR" property="userInterest"/>
+            <result column="user_label" jdbcType="VARCHAR" property="userLabel" />
+            <result column="user_jurisdiction" jdbcType="INTEGER" property="userJurisdiction"/>
+            <result column="user_idcard" jdbcType="CHAR" property="userIdcard"/>
+            <result column="headimgurl" jdbcType="VARCHAR" property="avatarUrl"/>
+            <result column="user_integral" jdbcType="INTEGER" property="userIntegral"/>
+            <result column="openid" jdbcType="VARCHAR" property="openid"/>
+            <result column="is_realname" jdbcType="BIT" property="isrealname"/>
+            <result column="user_native" jdbcType="VARCHAR" property="usernative"/>
+            <result column="unionid" jdbcType="VARCHAR" property="unionid"/>
+            <result column="user_marrytime" jdbcType="VARCHAR" property="userMarrytime"/>
+            <result column="user_newold" jdbcType="BIT" property="userNewold"/>
+            <result column="user_tips" jdbcType="BIT" property="userTips" />
+            <result column="user_house" jdbcType="INTEGER" property="userHouse" />
+            <result column="user_car" jdbcType="INTEGER" property="userCar" />
+            <result column="user_praise" jdbcType="INTEGER" property="userPraise" />
+            <result column="user_blacklist" jdbcType="INTEGER" property="userBlacklist" />
+            <result column="user_createtime" property="userCreatetime"/>
+        </collection>
+    </resultMap>
+    <resultMap  id="MyYouBaseResultMap" type="com.example.peach.pojo.merge.AppointMYuser" >
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="myid" property="myid"/>
+        <result column="youid" property="youid"/>
+        <result column="createtime" property="createTime"/>
+        <result column="status" property="status"/>
+        <result column="manager_string" property="managerString"/>
+        <result column="manager_status" property="managerStatus"/>
+        <collection property="myuser" column="myid" ofType="com.example.peach.pojo.User">
+            <id column="myid" jdbcType="INTEGER" property="id" />
+            <result column="user_nickname" jdbcType="VARCHAR" property="nickName" />
+            <result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+            <result column="user_phone" jdbcType="VARCHAR" property="userphone" />
+        </collection>
+        <collection property="youuser" column="youid" ofType="com.example.peach.pojo.User">
+            <id column="youid" jdbcType="INTEGER" property="id" />
+            <result column="youser_nickname" jdbcType="VARCHAR" property="nickName" />
+            <result column="youser_realname" jdbcType="VARCHAR" property="userRealname" />
+            <result column="user_phone" jdbcType="VARCHAR" property="userphone" />
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_nickname, user_realname, user_birthday, sex,user_phone,user_age, country, province, city, user_address,
+        user_autograph, user_occupation, is_marriage, user_height, user_education, user_salary,
+        user_interest, user_jurisdiction, user_idcard, headimgurl, user_integral, openid,is_realname,user_native,
+        unionid,user_marrytime,user_newold,user_tips
+
+    </sql>
+
+    <!--查询自己约见的对象-->
+    <select id="selectByMyId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        a.*,u.*
+        FROM user as u,appointment as a
+        WHERE u.id in(SELECT youid FROM appointment WHERE myid=  #{myid} ) and a.youid = u.id and a.myid=#{myid} order by a.createTime desc;
+    </select>
+
+    <!--查询约见自己的对象-->
+    <select id="selectByYouId" parameterType="java.lang.Integer" resultMap="youBaseResultMap">
+        SELECT
+        a.*,u.*
+        FROM user as u,appointment as a
+        WHERE u.id in(SELECT myid FROM appointment WHERE youid= #{youid} ) and a.myid = u.id and a.youid=#{youid} order by a.createTime desc ;
+    </select>
+    <select id="selectAppointMYuser" resultMap="MyYouBaseResultMap">
+        select ap.*,myuser.user_realname user_realname,youuser.user_realname youser_realname
+        from  appointment as ap,user as myuser,user as youuser
+        where ap.myid = myuser.id and ap.youid = youuser.id order by ap.createTime desc;
+    </select>
+    <!--查询相互心仪的对象-->
+    <!--<select id="selectAll"  resultType="com.example.peach.pojo.Appointment">-->
+        <!--SELECT	u.id,u.user_realname,f.myid,f.youid-->
+        <!--FROM user u-->
+        <!--JOIN favorite f ON u.id=f.myid-->
+        <!--JOIN favorite a ON u.id=a.youid-->
+        <!--WHERE f.youid=a.myid AND a.youid=f.myid-->
+    <!--</select>-->
+
+
+
+    <!--查询是否已有约见计划-->
+    <select id="selectAppointment" parameterType="com.example.peach.pojo.Appointment" resultType="com.example.peach.pojo.Appointment">
+        SELECT	a.id
+        FROM appointment a
+        WHERE (a.myid= #{myid} AND a.youid= #{youid} ) OR (a.myid=#{youid} AND a.youid=#{myid} )
+    </select>
+
+    <!--添加约见对象-->
+    <insert id="insertAppointment" parameterType="java.lang.Integer">
+        INSERT INTO appointment(myid,youid,status)
+        VALUES( #{myid} , #{youid} , 0 )
+    </insert>
+
+    <!--拒绝约见-->
+    <update id="updateStatus1" parameterType="com.example.peach.pojo.Appointment" >
+          UPDATE appointment  SET status= 1 WHERE myid= #{myid} AND youid= #{youid}
+    </update>
+
+    <!--同意约见-->
+    <update id="updateStatus2" parameterType="com.example.peach.pojo.Appointment" >
+        UPDATE appointment  SET status= 2 WHERE myid= #{myid} AND youid= #{youid}
+    </update>
+
+    <!--修改约见表-->
+    <update id="updateAppointment" parameterType="com.example.peach.pojo.Appointment">
+        update  appointment
+        <set>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="managerStatus != null">
+                manager_status = #{managerStatus,jdbcType=INTEGER},
+            </if>
+            <if test="managerString != null">
+                manager_string = #{managerString,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

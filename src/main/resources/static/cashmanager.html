@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <!--jquery-->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!--bootstrap-->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--bootstrap-table-->
+    <script src="bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="bootstrap-table-master/src/bootstrap-table.css">
+    <!--select选择-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="bootstrap-select-1.13.2/js/bootstrap-select.js"></script>
+
+    <script src="js/allmanger.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+   
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="page-header">
+        <h3>退款订单</h3>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" id="toobar" role="group" aria-label="...">
+                </div>
+                <table id="cash" class="table table-hover text-center ">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="alluserInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">个人信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="formactivity" enctype="multipart/form-data">
+                    <div class="page-header">
+                        <h4>基本信息填写</h4>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名:</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="userRealname"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">性别：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="gender"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年龄:</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="userage"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">婚否：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="isMarriage"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">身高:</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="userHeight"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">学历：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="userEducation"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">职业：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="userOccupation"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">薪资：</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="userSalary"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">电话号码:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userphone"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">生日:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userBirthday"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">籍贯:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="usernative"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">期望结婚时间:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userMarrytime"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">身份证:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userIdcard"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">爱好:</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="userInterest"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否有房:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userHouse"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">是否有车:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userCar"></p>
+                        </div>
+                    </div>
+                    <div class="page-header">
+                        <h4>会员信息</h4>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">卡类型:</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="vipGrade"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">约见次数:</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static" id="vipAppointment"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">会员办理时间:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="vipCreatetime"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">会员过期时间:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="vipEndtime"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">押金:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userWallet"></p>
+                        </div>
+                        <label class="col-sm-2 control-label">余额:</label>
+                        <div class='col-sm-3'>
+                            <p class="form-control-static" id="userDeposit"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">赠送免费参与:</label>
+                        <div class="form-group">
+                            <p class="form-control-static" id="userFree"></p>
+                        </div>
+                    </div>
+                    <div class="zoyq">
+                        <div class="page-header">
+                            <h4>择偶要求</h4>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">年龄:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateAge"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">身高:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateHeight"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">薪资:</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateSalary"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">学历：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateEducation"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">期望结婚时间:</label>
+                            <div class='col-sm-3'>
+                                <p class="form-control-static" id="mateMarrytime"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">婚姻状况：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateMarriage"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">籍贯：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateNative"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">信仰：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateBelief"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">饮酒：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateDrink"></p>
+                            </div>
+                            <label class="col-sm-2 control-label">抽烟：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="mateSmoking"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">有无子女：</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="isChildren"></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="upcash" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" >退款</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="forcash" enctype="multipart/form-data">
+                    <input type="text" name="id" class="form-control content" id="id"
+                           style="display: none;">
+                    <input type="text" name="userId" class="form-control content" id="userId"
+                           style="display: none;">
+                    <input type="text" name="out_trade_no" class="form-control content" id="outTradeNo"
+                           style="display: none;">
+                    <input type="text" name="outRefundNo" class="form-control content" id="outRefundNo"
+                           style="display: none;">
+                    <input type="text" name="total_fee" class="form-control content" id="total_fee"
+                           style="display: none;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题:</label>
+                        <div class="col-sm-8">
+                            <select name="status" id="status" class="selectpicker show-tick form-control">
+                                <option value="1">退款</option>
+                                <option value="2">不合格</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+</body>
+
+<script type="text/javascript">
+    path="https://www.thy66.cn/pe/peach";
+    //添加
+    $(function () {
+        operate.operateInit();
+    });
+    var operate = {
+        operateInit:function () {
+            this.selectbootstrapTable();//创建table
+            selsctuserallInfo(); //个人全部信息的展示
+            this.upcashmanager();//修改退款状态
+        },
+        selectbootstrapTable:function () {
+            //创建table
+            $("#cash").bootstrapTable({
+                columns: [
+                    {
+                        field: 'id',
+                        title: '序号'
+                    },
+                    {
+                        field: 'userId',
+                        title: '用户',
+                        formatter:cashuser,
+                    },
+                    {
+                        title: '商户订单号',
+                        formatter:outTradeNo,
+                    },
+                    {
+                        title: '微信订单号',
+                        formatter:transactionId,
+                    },
+                    {
+                        field: 'outRefundNo',
+                        title: '退款单号',
+                    },
+                    {
+                        field: 'refundStatus',
+                        title: '退款状态',
+                        formatter:refundStatus,
+                    },
+                    {
+                        field: 'status',
+                        title: '处理状态',
+                        formatter:pdrefundstatus,
+                    },
+                    {
+                        field: 'createTime',
+                        title: '退款创建时间',
+                        sortable:true,
+
+                    },
+                    {
+                        field: 'endTime',
+                        title: '处理结束时间'
+                    },
+                    {
+                        field: 'id',
+                        title: '操作',
+                        align: 'center',
+                        formatter: actionforxg,
+                    },
+                ],
+                method: 'GET',
+                url: path+'/manager/allrefund',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataField: "data",
+                dataType: "json",
+                toolbar: '#toobar',//工具列
+                striped: true,//隔行换色
+                cache: false,//禁用缓存
+                pagination: true,//启动分页
+                sidePagination: 'client',//分页方式
+                pageNumber: 1,//初始化table时显示的页码
+                pageSize: 7,//每页条目
+                showFooter: false,//是否显示列脚
+                showPaginationSwitch: true,//是否显示 数据条数选择框
+                sortable: true,//排序
+                sortOrder:"asc",
+                sidePagination:"client",
+                search: true,//启用搜索
+                showColumns: true,//是否显示 内容列下拉框
+                showRefresh: true,//显示刷新按钮
+                idField: 'SystemCode',//key值栏位
+                clickToSelect: true,//点击选中checkbox
+                // singleSelect: true,//启用单行选中
+                //得到查询的参数
+                queryParams : function(params) {
+                    return {
+                        limit : params.limit,
+                        offset : params.offset,
+                        sort : params.sort,
+                        order : params.order
+                    };
+                },
+            });
+        },
+        upcashmanager:function () {
+            $("#upcash").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);  //当前模态框
+                var userId = btnThis.data('id');
+                var talfee = btnThis.data("talfee");
+                modal.find('#id').val(btnThis.closest('tr').find('td').eq(0).text());
+                modal.find('#userId').val(userId);
+                modal.find('#outRefundNo').val(btnThis.closest('tr').find('td').eq(4).text());
+                modal.find('#outTradeNo').val(btnThis.closest('tr').find('td').eq(2).text());
+                modal.find('#total_fee').val(talfee);
+                //先解除绑定
+                $("#btn_submit").unbind('click');
+                $("#btn_submit").on('click',function () {
+                    $.ajax({
+                        type: "post",
+                        dataType: 'JSON',
+                        url: path+"/manager/modifyrefund",
+                        data: $("#forcash").serializeArray(),
+                        success: function (data) {
+                            if(data.status){
+                                alert(data.msg);
+                                $("#cash").bootstrapTable('refresh');
+                            }else {
+                                alert(data.msg);
+                            }
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("出现错误!!");
+                        }
+                    });
+                });
+            });
+        }
+    }
+    function outTradeNo(value,row) {
+        if(row.orderpay!=null){
+            return row.orderpay.outTradeNo;
+        }else if(row.orderActivity!=null){
+            return row.orderActivity.outTradeNo;
+        }
+    }
+    function pdtotal_fee(row) {
+        if(row.orderpay!=null){
+            return row.orderpay.totalFee;
+        }else if(row.orderActivity!=null){
+            return row.orderActivity.depositFee;
+        }
+    }
+    function transactionId(value,row) {
+        if(row.orderpay!=null){
+            return row.orderpay.transactionId;
+        }else if(row.orderActivity!=null){
+            return row.orderActivity.transactionId;
+        }
+    }
+    function pdrefundstatus(value) {
+        if(value==0){
+            return "待处理";
+        }else if(value==1){
+            return "完成";
+        }else if(value==2){
+            return "不合格";
+        }else if(value==3){
+            return "重新审核";
+        }
+    }
+    function refundStatus(value) {
+        if(value==0){
+            return "退款失败";
+        }else if(value==1){
+            return "退款成功";
+        }
+;    }
+    function cashuser(value,row) {
+        var result = "";
+        var name = pduserRname(row.user.userRealname);
+        result +="<div style=\"margin:auto 0;\">";
+        result += "<a class='btn btn-xs blue' data-toggle=\"modal\" data-target=\"#alluserInfo\" data-id=\""+value+"\">"+name+"</a>";
+        result +="</div>";
+        return result;
+    }
+    //操作栏的格式化
+    function actionforxg(value,row) {
+        var id = value;
+        var result = "";
+        result +="<div style=\"margin:auto 0;\">";
+        result += "<a class='btn btn-xs blue' title='编辑' data-toggle=\"modal\" data-target=\"#upcash\" data-id=\""+row.userId+"\" data-talfee=\""+pdtotal_fee(row)+"\"><span class='glyphicon glyphicon-pencil'></span></a>";
+        result +="</div>";
+        return result;
+    }
+
+</script>
+
+</html>

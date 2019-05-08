@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <title>Title</title>
+</head>
+<body>
+        <img id="image" src="resources/images/default.png" style="width:358px; height:130px;"/>
+        <span><input type="file" name="file" id="file" onchange="selectImage(this);"></span>
+        <input type="button" value="上传" onclick="importWeldingMachine()" class="upButton"/>
+
+</body>
+<script>
+    var file = '';
+    //选择文件
+    function selectImage(obj){
+        var f=$(obj).val();
+        if(f == null || f ==undefined || f == ''){
+            document.getElementById('image').src = "";
+            return false;
+        }
+        if(!/\.(?:png|jpg|bmp|gif|PNG|JPG|BMP|GIF)$/.test(f)){
+            alert("类型必须是图片(.png|jpg|bmp|gif|PNG|JPG|BMP|GIF)");
+            $(obj).val('');
+            return false;
+        }
+        imgdata = new FormData();
+        $.each($(obj)[0].files,function(i,file){
+            imgdata.append('file', file);
+        });
+        if(!file.files || !file.files[0]){
+            return;
+        }
+        //将上传的图片显示到页面
+        var reader = new FileReader();
+        reader.onload = function(evt){
+            document.getElementById('image').src = evt.target.result;
+            uploadfile = evt.target.result;
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+
+    var imageurl = "";
+    //上传
+    function importWeldingMachine() {
+        var file = $("#file").val();
+        if (file == null || file == "") {
+            $.messager.alert("提示", "请选择要上传的文件！");
+            return false;
+        } else {
+            $.ajax({
+                type : "post",
+                async : false,
+                url : "http://localhost:8080/upload",
+                data : file=file,
+                cache : false,
+                contentType : false, //不可缺
+                processData : false, //不可缺,设置为true的时候,ajax提交的时候不会序列化 data，而是直接使用data
+                dataType : "json", //返回数据形式为json
+                success : function(result) {
+                    if (result) {
+                        if (!result.success) {
+                            imageurl = "";
+                            $.messager.show({
+                                title : 'Error',
+                                msg : result.errorMsg
+                            });
+                        } else {
+                            imageurl = result.imgurl;
+                            alert(imageurl);
+                            $.messager.alert("提示", "图片上传成功！");
+                        }
+                    }
+                },
+                error : function(errorMsg) {
+                    alert("数据请求失败，请联系系统管理员!");
+                }
+            });
+        }
+
+    }
+</script>
+</html>

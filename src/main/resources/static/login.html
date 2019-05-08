@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/pintuer.js"></script>
+
+</head>
+
+<script>
+    var path = "https://www.thy66.cn/pe/peach";
+    $(function () {
+        getPath();
+    });
+    function getPath(){
+        var pathName = document.location.pathname;
+        var index = pathName.substr(1).indexOf("/");
+        path = pathName.substr(0,index+1);
+    }
+    function checkInput(){
+        //判断用户名
+        if($("input[name=uname]").val()==null || $("input[name=uname]").val()==""){
+            alert("用户名不能等于空");
+            $("input[name=uname]").focus();
+            return false;
+        }
+        if($("input[name=uname]").val().length<=5){
+            alert("用户名不能小于5位");
+            return false;
+        }
+        if($("input[name=password]").val().length<=5){
+            alert("密码不能小于5位");
+            return false;
+        }
+
+        //判断密码
+        if($("input[name=password]").val()==null || $("input[name=password]").val()==""){
+            alert("密码不能等于空");
+            $("input[name=password]").focus();
+            return false;
+        }
+        //判断验证码
+        if($("#verificationCode").val()==null || $("#verificationCode").val()==""){
+            alert("验证码不能为空");
+            $("#verificationCode").focus();
+            return false;
+        }
+        return true;
+    }
+    $("#validationCode_img").click(function(){
+        $("#validationCode_img").attr("src","https://www.thy66.cn/pe/peach/admin/getVerificationCode?date"+(new Date()).valueOf());
+    })
+
+
+
+    function login (){
+        if(!checkInput()){
+            return;
+        }
+        var t = $(".am-form").serializeArray();
+        $.ajax({
+            url:"https://www.thy66.cn/pe/peach/admin/login",
+            "data":t,
+            "type":"post",
+            "dataType":"json",
+            "async":"false",
+            "success":function(obj) {
+                if(!obj.status){
+                    alert(obj.msg);
+                    $("#validationCode_img").attr("src","https://www.thy66.cn/pe/peach/admin/getVerificationCode");
+                    $("#verificationCode").val("");
+                }else{
+                    window.location.href =  "https://www.thy66.cn/pe/peach/index.html";
+                }
+            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("出现错误!!");
+            }
+        })
+    }
+</script>
+<body>
+<div class="bg"></div>
+<div class="container">
+    <div class="line bouncein">
+        <div class="xs6 xm4 xs3-move xm4-move">
+            <div style="height:150px;"></div>
+            <div class="media media-y margin-big-bottom">
+            </div>
+            <form onsubmit="false"  class="am-form">
+                <div class="panel loginbox">
+                    <div class="text-center margin-big padding-big-top"><h1>后台管理中心</h1></div>
+                    <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="text" class="input input-big" name="uname" placeholder="登录账号" data-validate="required:请填写账号" />
+                                <span class="icon icon-user margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="password" class="input input-big" name="password" placeholder="登录密码" data-validate="required:请填写密码" />
+                                <span class="icon icon-key margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field">
+                                <input type="text" class="input input-big" id="verificationCode" name="verificationCode" placeholder="填写右侧的验证码" data-validate="required:请填写右侧的验证码" />
+                                <img src="http://localhost:8080/admin/getVerificationCode" id="validationCode_img" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;" onclick="this.src=this.src+'?'">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:30px;"><input type="button" onclick="login()" class="button button-block bg-main text-big input-big" value="登录" ></div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

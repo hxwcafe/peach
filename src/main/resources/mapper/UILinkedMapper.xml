@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.UILinkedMapper">
+  <resultMap id="BaseResultMap" type="com.example.peach.pojo.UILinked">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="interest_id" jdbcType="INTEGER" property="interestId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, interest_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from uilinked
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from uilinked
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.peach.pojo.UILinked">
+    insert into uilinked (id, user_id, interest_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{interestId,jdbcType=INTEGER}
+      )
+  </insert>
+<update id="updateByPrimaryKey" parameterType="com.example.peach.pojo.UILinked">
+    update uilinked
+    set user_id = #{userId,jdbcType=INTEGER},
+      interest_id = #{interestId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from uilinked
+    where user_id=#{userId}
+  </select>
+
+  <select id="selectCountByinterest_id" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT count(*)
+  FROM interest as i,user as u,uilinked as ui
+  WHERE ui.user_id = u.id and ui.interest_id = i.id and ui.interest_id=#{id}
+  </select>
+
+</mapper>

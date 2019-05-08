@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <!--jquery-->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!--bootstrap-->
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
+    <!--bootstrap-table-->
+    <script src="bootstrap-table-master/src/bootstrap-table.js"></script>
+    <script src="bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="bootstrap-table-master/src/bootstrap-table.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+    <!--select选择-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <script src="bootstrap-select-1.13.2/js/bootstrap-select.js"></script>
+    <!--时间选择器-->
+    <script src="js/moment-with-locales.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.min.js"></script>
+    <link href="bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="panel admin-panel">
+    <div class="page-header">
+        <h3>用户信息</h3>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" id="toobar" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" id="allA">
+                        A
+                    </button>
+                    <button type="button" class="btn btn-default" id="allB">
+                        B
+                    </button>
+                    <button type="button" class="btn btn-default" id="export">
+                        <span class="glyphicon glyphicon-download-alt"></span>导出
+                    </button>
+                    <a href="ajaxTest.action?fileName=FCN301-Ver.1.1費用申請書.xls">文件下载（超链接）</a>
+                </div>
+                <table id="user" class="table table-hover text-center ">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="upModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabe2">修改会员信息</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formupdate" method="post" class="form-horizontal">
+                    <input type="text" name="id" class="form-control content" id="id" placeholder="id"
+                           style="display: none;">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">卡类型:</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="vipGrade" class="form-control" name="vipGrade" placeholder="卡类型">
+                        </div>
+                        <label class="col-sm-2 control-label">约见次数:</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="vipAppointment" class="form-control" name="vipAppointment" placeholder="约见次数">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">会员办理时间:</label>
+                        <div class='col-sm-3'>
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' id="vipCreatetime" name="vipCreatetime" class="form-control"/>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label">会员过期时间:</label>
+                        <div class='col-sm-3'>
+                            <div class='input-group date' id='datetimepicker2'>
+                                <input type='text' id="vipEndtime" name="vipEndtime" class="form-control"/>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">赠送免费参与:</label>
+                        <div class="form-group">
+                            <select name="userFree" id="userFree" class="btn btn-default dropdown-toggle">
+                                <option>否</option>
+                                <option>是</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="update_submit" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="upModaluser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title">修改用户基本信息</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formupdateuser" method="post" class="form-horizontal">
+                    <input type="text" name="id" class="form-control content" id="user_id" placeholder="id"
+                           style="display: none;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="userRealname" name="userRealname" placeholder="姓名">
+                        </div>
+                        <label class="col-sm-2 control-label">性别：</label>
+                        <div class="col-sm-3">
+                            <select name="gender" id="gender" class="selectpicker show-tick form-control">
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年龄:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="userage" name="userage" placeholder="年龄">
+                        </div>
+                        <label class="col-sm-2 control-label">婚否：</label>
+                        <div class="col-sm-3">
+                            <select name="isMarriage" id="isMarriage" class="selectpicker show-tick form-control">
+                                <option value="0">未婚</option>
+                                <option value="1">离异</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">身高:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="userHeight"  name="userHeight" placeholder="身高">
+                        </div>
+                        <label class="col-sm-2 control-label">学历：</label>
+                        <div class="col-sm-3">
+                            <select name="userEducation" id="userEducation" class="selectpicker show-tick form-control">
+                                <option>专科</option>
+                                <option>本科</option>
+                                <option>硕士</option>
+                                <option>博士</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">职业：</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="userOccupation" class="form-control" name="userOccupation" placeholder="职业">
+                        </div>
+                        <label class="col-sm-2 control-label">薪资：</label>
+                        <div class="col-sm-3">
+                            <select name="userSalary" id="userSalary" class="selectpicker show-tick form-control">
+                                <option>0-3千</option><option>3千-5千</option><option>5千-1万</option>
+                                <option>1万-2万</option><option>2万-5万</option><option>5万-10万</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">电话号码:</label>
+                        <div class='col-sm-3'>
+                            <input type="text" id="userphone" class="form-control" name="userphone" placeholder="电话号码">
+                        </div>
+                        <label class="col-sm-2 control-label">生日:</label>
+                        <div class='col-sm-3'>
+                            <div class='input-group date' id='datetimepicker3'>
+                                <input type='text'id="userBirthday"  name="userBirthday"  class="form-control" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">籍贯:</label>
+                        <div class='col-sm-3'>
+                            <input type="text" class="form-control" id="usernative" name="usernative" placeholder="籍贯">
+                        </div>
+                        <label class="col-sm-2 control-label">期望结婚时间:</label>
+                        <div class='col-sm-3'>
+                            <select name="userMarrytime"  id="userMarrytime" class="selectpicker show-tick form-control">
+                                <option>两年内</option>
+                                <option>一年</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">身份证:</label>
+                        <div class='col-sm-3'>
+                            <input type="text" id="userIdcard" class="form-control" name="userIdcard" placeholder="身份证">
+                        </div>
+                        <label class="col-sm-2 control-label">爱好:</label>
+                        <div class="col-sm-3">
+                            <select name="userInterest" id="userInterest" class="selectpicker" multiple data-live-search="true">
+                                <option>骑行</option><option>爬山</option><option>野营</option>
+                                <option>徒步</option><option>自驾游</option><option>国外游</option>
+                                <option>散文</option><option>诗集</option><option>历史</option>
+                                <option>创作</option><option>羽毛球</option><option>跑步</option>
+                                <option>网球</option><option>篮球</option><option>足球</option>
+                                <option>哑铃</option><option>鲁菜</option><option>川菜</option>
+                                <option>粤菜</option><option>淮扬菜</option><option>闽菜</option>
+                                <option>湘菜</option><option>徽菜</option><option>西餐</option>
+                                <option>韩剧</option><option>美剧</option><option>电影</option>
+                                <option>吉他</option><option>钢琴</option><option>绘画</option>
+                                <option>摄影</option><option>养花</option><option>种草</option>
+                                <option>植物类</option><option>猫</option><option>狗</option>
+                                <option>松鼠</option><option>蛇</option><option>蜥蜴</option>
+                                <option>汉服</option><option>唐服</option><option>cosplay</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否有房:</label>
+                        <div class='col-sm-3'>
+                            <select name="userHouse" id="userHouse" class="selectpicker show-tick form-control">
+                                <option value="0">否</option>
+                                <option  value="1">是</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label">是否有车:</label>
+                        <div class='col-sm-3'>
+                            <select name="userCar" id="userCar" class="selectpicker show-tick form-control">
+                                <option value="0">否</option>
+                                <option  value="1">是</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否黑名单:</label>
+                        <div class='col-sm-3'>
+                            <select name="userBlacklist" id="userBlacklist" class="selectpicker show-tick form-control">
+                                <option value="0">否</option>
+                                <option  value="1">是</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="update_user" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="upModalmate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title">修改择偶要求</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formupdatemate" method="post" class="form-horizontal">
+                    <input type="text" name="userId" class="form-control content" id="mate_id" placeholder="id"
+                           style="display: none;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年龄:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="mateAge" name="mateAge" placeholder="择偶年龄">
+                        </div>
+                        <label class="col-sm-2 control-label">身高:</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="mateHeight" name="mateHeight" placeholder="择偶身高">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">薪资:</label>
+                        <div class="col-sm-3">
+                            <select name="mateSalary" id="mateSalary" class="selectpicker show-tick form-control">
+                                <option>0-3千</option><option>3千-5千</option><option>5千-1万</option>
+                                <option>1万-2万</option><option>2万-5万</option><option>5万-10万</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label">学历：</label>
+                        <div class="col-sm-3">
+                            <select name="mateEducation" id="mateEducation"  class="selectpicker show-tick form-control">
+                                <option>专科</option>
+                                <option>本科</option>
+                                <option>硕士</option>
+                                <option>博士</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">期望结婚时间:</label>
+                        <div class='col-sm-3'>
+                            <select name="mateMarrytime" id="mateMarrytime" class="selectpicker show-tick form-control">
+                                <option>两年内</option>
+                                <option>一年</option>
+                                <option>半年内</option>
+                            </select>
+                        </div>
+                        <label class="col-sm-2 control-label">婚姻状况：</label>
+                        <div class="col-sm-3">
+                            <select name="mateMarriage" id="mateMarriage" class="selectpicker show-tick form-control">
+                                <option>未婚</option>
+                                <option>已婚过</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">籍贯：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="mateNative" name="mateNative" placeholder="择偶籍贯">
+                        </div>
+                        <label class="col-sm-2 control-label">信仰：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="mateBelief" name="mateBelief" placeholder="信仰">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">饮酒：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="mateDrink" name="mateDrink" placeholder="是否抽烟">
+                        </div>
+                        <label class="col-sm-2 control-label">抽烟：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="mateSmoking" name="mateSmoking" placeholder="是否抽烟">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">有无子女：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="isChildren" name="isChildren" placeholder="有无子女">
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                    </button>
+                    <button type="button" id="update_mate" class="btn btn-primary" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>修改
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="queryactuser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 class="modal-title">活动单信息</h4>
+                <table id="movietable" class="table table-hover text-center ">
+                    <thead>
+                    <tr>
+                        <th>活动序号</th>
+                        <th>报名日期</th>
+                        <th>状态</th>
+                        <th>是否打卡</th>
+                    </tr>
+                    </thead>
+                    <thead id="movietable_thead">
+
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    path = "https://www.thy66.cn/pe/peach";
+    //添加
+    $(function () {
+        operate.operateInit();
+    });
+    var operate = {
+        operateInit: function () {
+            this.selectbootstrapTable();//创建table
+            this.selectA();//查询A
+            this.selectB();//查询A
+            this.updatevip();//修改vip信息
+            this.updatejb();//修改用户基本信息
+            this.updatemate();//修改用户择偶要求
+            this.selectact();//查询用户活动行程
+            this.userexport();//用户信息导出
+        },
+        selectA:function () {
+            $("#allA").on("click", function () {
+                $('#user').bootstrapTable('refresh', {url: path + "/user/usera"});
+            });
+        },
+        selectB:function () {
+            $("#allB").on("click", function () {
+                $('#user').bootstrapTable('refresh', {url: path + "/user/userb"});
+            });
+        },
+        selectbootstrapTable:function () {
+            //创建table
+            $("#user").bootstrapTable({
+                columns: [
+                    {
+                        field: 'checked',
+                        checkbox: true,
+                        align: 'center',
+                        formatter : function(i, row) { // 每次加载 checkbox 时判断当前 row 的 id 是否已经存在全局 Set() 里
+                            if ($.inArray(row.id,
+                                overAllIds) != -1) {// 因为 判断数组里有没有这个 id
+                                return {
+                                    checked: true
+                                    // 存在则选中
+                                }
+                            }
+                        }
+                    },
+                    {
+                        field: 'id',
+                        title: '序号'
+                    },
+                    {
+                        field: 'userRealname',
+                        title: '姓名'
+                    },
+                    {
+                        field: 'gender',
+                        title: '性别',
+                        formatter: pdsex,
+                    },
+                    {
+                        field: 'userage',
+                        title: '年龄',
+                        sortable: true,
+                    },
+                    {
+                        field: 'userHeight',
+                        title: '身高',
+                        sortable: true,
+                    },
+                    {
+                        field: 'userEducation',
+                        title: '学历',
+                    },
+                    {
+                        field: 'userOccupation',
+                        title: '职业',
+                    },
+                    {
+                        field: 'userSalary',
+                        title: '薪资',
+                    },
+                    {
+                        field: 'isMarriage',
+                        title: '婚否',
+                        formatter: pdhf,
+                    },
+                    {
+                        field: 'userphone',
+                        title: '手机号码',
+                    },
+                    {
+                        field: 'userAddress',
+                        title: '地址',
+                    },
+                    {
+                        field: 'userCreatetime',
+                        title: '用户创建时间',
+                    },
+                    {
+                        field: 'id',
+                        title: '活动行程',
+                        formatter: actionforxg,
+                    },
+
+                    {
+                        field: 'id',
+                        title: '操作',
+                        align: 'center',
+                        formatter: updateuser,
+                    },
+
+                ],
+                method: 'GET',
+                url: path + '/user/usera',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                dataField: "data",
+                dataType: "json",
+                toolbar: '#toobar',//工具列
+                striped: true,//隔行换色
+                cache: false,//禁用缓存
+                pagination: true,//启动分页
+                sidePagination: 'client',//分页方式
+                pageNumber: 1,//初始化table时显示的页码
+                pageSize: 10,//每页条目
+                showFooter: false,//是否显示列脚
+                showPaginationSwitch: true,//是否显示 数据条数选择框
+                sortable: true,//排序
+                sortOrder: "desc",//排序方式
+                sortName : 'id',
+                sidePagination: "client",
+                sortName : 'userCreatetime',
+                search: true,//启用搜索
+                showColumns: true,//是否显示 内容列下拉框
+                showRefresh: true,//显示刷新按钮
+                clickToSelect: true,//点击选中checkbox
+                //得到查询的参数
+                queryParams: function (params) {
+                    return {
+                        limit: params.limit,
+                        offset: params.offset,
+                        sort: params.sort,
+                        sortOrder: params.order
+                    };
+                },
+                onDblClickRow: function (row) {
+
+                    function updatevip() {
+
+                    };
+                },
+            });
+        },
+        //修改vip信息
+        updatevip:function () {
+            $("#upModal").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);  //当前模态框
+                var modalId = btnThis.data('id');   //解析出data-id的内容
+                $.ajax({
+                    type: "get",
+                    dataType: 'JSON',
+                    url: path + "/mate/selectuamate",
+                    data: {"userId": modalId},
+                    success: function (data) {
+                        if (data.status) {
+                            modal.find('#id').val(data.data.userVipl.id);
+                            modal.find('#vipGrade').val(data.data.userVipl.vipGrade);
+                            modal.find('#vipAppointment').val(data.data.userVipl.vipAppointment);
+                            modal.find('#vipCreatetime').val(data.data.userVipl.vipCreatetime);
+                            modal.find('#vipEndtime').val(data.data.userVipl.vipEndtime);
+                            modal.find('#userFree').val(pdtf(data.data.userVipl.userFree));
+                        } else {
+                            alert(data.msg);
+                        }
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出现错误!!");
+                    }
+                });
+                //先解除绑定
+                $("#update_submit").unbind('click');
+                $("#update_submit").on('click', function () {
+                    $.ajax({
+                        type: "post",
+                        dataType: 'JSON',
+                        url: path + "/user/upuservip",
+                        data: $("#formupdate").serializeArray(),
+                        success: function (data) {
+                            alert(data.msg);
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("出现错误!!");
+                        }
+                    });
+                });
+            });
+        },
+        updatejb:function () {
+            $("#upModaluser").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);  //当前模态框
+                var modalId = btnThis.data('id');   //解析出data-id的内容
+                $.ajax({
+                    type: "get",
+                    dataType: 'JSON',
+                    url: path + "/mate/selectuamate",
+                    data: {"userId": modalId},
+                    success: function (data) {
+                        if (data.status) {
+                            modal.find('#user_id').val(data.data.id);
+                            modal.find('#userRealname').val(data.data.userRealname);
+                            $('#gender').selectpicker('val', data.data.gender);
+                            modal.find('#userage').val(data.data.userage);
+                            $('#isMarriage').selectpicker('val',truefalse(data.data.isMarriage));
+                            modal.find('#userHeight').val(data.data.userHeight);
+                            $('#userEducation').selectpicker('val', data.data.userEducation);
+                            modal.find('#userOccupation').val(data.data.userOccupation);
+                            $('#userSalary').selectpicker('val',data.data.userSalary);
+                            modal.find('#userphone').val(data.data.userphone);
+                            modal.find('#userBirthday').val(data.data.userBirthday);
+                            modal.find('#usernative').val(data.data.usernative);
+                            $('#userMarrytime').selectpicker('val',data.data.userMarrytime);
+                            modal.find('#userIdcard').val(data.data.userIdcard);
+                            $('#userInterest').selectpicker('val',fgstring(data.data.userInterest));
+                            $('#userHouse').selectpicker('val',truefalse(data.data.userHouse));
+                            $('#userCar').selectpicker('val',truefalse(data.data.userCar));
+                            $('#userBlacklist').selectpicker('val',truefalse(data.data.userBlacklist));
+                        } else {
+                            alert(data.msg);
+                        }
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出现错误!!");
+                    }
+                });
+                //先解除绑定
+                $("#update_user").unbind('click');
+                $("#update_user").on('click', function (e) {
+                    if(!pdpage()    ){
+                        return false;
+                    }
+                    $.ajax({
+                        type: "post",
+                        dataType: 'JSON',
+                        url: path + "/user/upuser",
+                        data: $("#formupdateuser").serializeArray(),
+                        success: function (data) {
+                            $("#userBirthday").attr("name","userBirthday");
+                            alert(data.msg);
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $("#userBirthday").attr("name","userBirthday");
+                            alert("出现错误!!");
+                        }
+                    });
+                });
+            });
+        },
+        updatemate:function () {
+            $("#upModalmate").on('hidden.bs.modal', '.modal', function () {
+                if (!data) return e.preventDefault();
+            });
+            $("#upModalmate").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modal = $(this);  //当前模态框
+                var modalId = btnThis.data('id');   //解析出data-id的内容
+                $.ajax({
+                    type: "get",
+                    dataType: 'JSON',
+                    url: path + "/mate/selectuamate",
+                    data: {"userId": modalId},
+                    success: function (data) {
+                        if (data.status) {
+                            if(data.data.mate!=null) {
+                                modal.find('#mate_id').val(data.data.id);
+                                modal.find('#mateAge').val(data.data.mate.mateAge);
+                                $('#mateSalary').selectpicker('val', data.data.mate.mateSalary);
+                                $('#mateEducation').selectpicker('val', data.data.mate.mateEducation);
+                                $('#mateMarriage').selectpicker('val', data.data.mate.mateMarriage);
+                                modal.find('#mateNative').val(data.data.mate.mateNative);
+                                $('#mateMarrytime').selectpicker('val', data.data.mate.mateMarrytime);
+                                modal.find('#mateBelief').val(data.data.mate.mateBelief);
+                                modal.find('#mateDrink').val(data.data.mate.mateDrink);
+                                modal.find('#mateSmoking').val(data.data.mate.mateSmoking);
+                                modal.find('#isChildren').val(data.data.mate.isChildren);
+                                modal.find('#mateHeight').val(data.data.mate.mateHeight);
+                            }else{
+                                $('#upModalmate').modal('hide');//关闭模态
+                                alert('没有择偶数据...');
+                            }
+                        } else {
+                            alert(data.msg);
+                        }
+                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("出现错误!!");
+                    }
+                });
+                //先解除绑定
+                $("#update_mate").unbind('click');
+                $("#update_mate").on('click', function (e) {
+                    $.ajax({
+                        type: "post",
+                        dataType: 'JSON',
+                        url: path + "/user/mangerupmate",
+                        data: $("#formupdatemate").serializeArray(),
+                        success: function (data) {
+                            alert(data.msg);
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("出现错误!!");
+                        }
+                    });
+                });
+            });
+        },
+        selectact:function () {
+            $("#queryactuser").on('show.bs.modal', function (event) {
+                var btnThis = $(event.relatedTarget); //触发事件的按钮
+                var modalId = btnThis.data('id');
+                $.ajax({
+                    type: "get",
+                    url: path+"/actorder/selectuseridlist",
+                    dataType: 'JSON',
+                    data: {"userId":modalId},
+                    success: function (data) {
+                        data = data.data;
+                        if(data[0]==null){
+                            var str = "";
+                            str += "<tr>"+ "<td colspan=\"9\">" +"没有行程信息"+ "</td>" +"</tr>";
+                        }else {
+                            var str = "";
+                            for (i in data) {
+                                str += "<tr>" +
+                                    "<td>" + data[i].activityId + "</td>" +
+                                    "<td>" + data[i].orderNumber + "</td>" +
+                                    "<td>" + pdstatus(data[i].status) + "</td>" +
+                                    "<td>" + pdsign(data[i].signIn) + "</td>" +
+                                    "</tr>";
+                            }
+                        }
+                        document.getElementById("movietable_thead").innerHTML = str;
+                    },
+                    error: function () {
+                        alert("错误");
+                    }
+                });
+            });
+        },
+        userexport:function () {
+            $("#export").on("click",function () {
+                var rows = $("#user").bootstrapTable('getSelections');
+                if (rows.length== 0) {
+                    alert("请选择要导出的内容!");
+                    return;
+                }
+                var ids = '';
+                for (var i = 0; i < rows.length; i++) {
+                    ids += rows[i].id + ",";
+                }
+                ids = ids.substring(0, ids.length - 1);
+                window.location.href=path + "/user/exceluserss?ides="+ids;
+            })
+        }
+
+
+
+    }
+
+    //操作栏的格式化
+    function actionforxg(value, row, index) {
+        var id = value;
+        var result = "";
+        result += "<a class='btn btn-xs blue' title='活动行程' data-toggle=\"modal\" data-target=\"#queryactuser\" data-id=\"" + id + "\">活动行程</a>";
+        return result;
+    }
+    function updateuser(value) {
+        var id = value;
+        var result = "";
+        result += "<a class='btn btn-xs blue' title='用户基本信息' data-toggle=\"modal\" data-target=\"#upModaluser\" data-id=\"" + id + "\"><span class='glyphicon glyphicon-user'></span></a>";
+        result += "<a class='btn btn-xs blue' title='会员信息' data-toggle=\"modal\" data-target=\"#upModal\" data-id=\"" + id + "\"><span class='glyphicon glyphicon-jpy'></span></a>";
+        result += "<a class='btn btn-xs blue' title='择偶要求' data-toggle=\"modal\" data-target=\"#upModalmate\" data-id=\"" + id + "\"><span class='glyphicon glyphicon-heart'></span></a>";
+        result += "<a class='btn btn-xs blue' title='删除用户' onclick=\"userDelete('" + id + "')\"><span class='glyphicon glyphicon-remove'></span></a>";
+        return result;
+    }
+    function userDelete(id) {
+        var t = confirm("您确认要删除该用户吗？");
+        if (t == false) {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "post",
+                url: path+"/user/deluser",
+                data: {"id": id},
+                success: function (data, status) {
+                    alert(data.msg);
+                    $("#user").bootstrapTable('refresh');
+                },
+                error: function () {
+                    alert("错误");
+                }
+            });
+        }
+    }
+    //判断男女
+    function pdsex(value) {
+        if (value == 1) {
+            return "男";
+        } else if (value == 2) {
+            return "女";
+        } else if (value == 0) {
+            return "未知";
+        }
+    }
+    function pdtf(value){
+        if(value==1){
+            return "是";
+        }else{
+            return "否";
+        }
+    }
+    //判断婚否
+    function pdhf(value) {
+        if (value == 1) {
+            return "离异";
+        } else {
+            return "未婚";
+        }
+    }
+    function pdstatus(value) {
+        if(value==0){
+            return "邀约中(如果是本周活动,为签到)";
+        }else if(value==1){
+            return "付款中";
+
+        }else if(value==2){
+            return "付款完成,等待打卡";
+        }
+    }
+    function  pdsign(value) {
+        if(value==0){
+            return "未签到";
+        }else if(value==1){
+            return "已签到";
+        }
+    }
+    function truefalse(value) {
+        if (value == true) {
+            return "1";
+        } else {
+            return "0";
+        }
+    }
+
+    //分割字符串
+    function fgstring(value) {
+        if(value!=null){
+            var arr=value.split(',').reverse();
+            return arr;
+        }
+        return null;
+    }
+    //请求成功方法
+    function responseHandler(result) {
+        var errcode = result.errcode;//在此做了错误代码的判断
+        if (errcode != 0) {
+            alert("错误代码" + errcode);
+            return;
+        }
+        //如果没有错误则返回数据，渲染表格
+        return {
+            // total : result.dataLength, //总页数,前面的key必须为"total"
+            data: result.data //行数据，前面的key要与之前设置的dataField的值一致.
+        };
+    };
+
+    function pdpage(){
+        if($("input[name=userBirthday]").val()==null || $("input[name=userBirthday]").val()==""){
+            $("input[name=userBirthday]").attr("name","");
+        }
+        if($("input[name=userphone]").val()==null || $("input[name=userphone]").val()==""){
+            alert("电话号码不能为空");
+            return false;
+        }
+
+        return true;
+    }
+    $('#datetimepicker3').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale : moment().locale('zh-cn')
+    });
+    $('#datetimepicker2').datetimepicker({
+        format: 'YYYY-MM-DD HH:MM:SS',
+        locale : moment().locale('zh-cn')
+    });
+    $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD HH:MM:SS',
+        locale : moment().locale('zh-cn')
+    });
+
+    var overAllIds = new Array(); //全局数组
+    function getSelectCheck() {
+        return overAllIds;
+    }
+    function examine(type, datas) {
+        if (type.indexOf('uncheck') == -1) {
+            $.each(datas,
+                function(i, v) {
+                    // 添加时，判断一行或多行的 id 是否已经在数组里 不存则添加　
+                    overAllIds.indexOf(v.id) == -1 ? overAllIds
+                        .push(v.id) : -1;
+                });
+        } else {
+            $.each(datas, function(i, v) {
+                overAllIds.splice(overAllIds.indexOf(v.id), 1); //删除取消选中行
+            });
+        }
+    }
+    $('#table').on('uncheck.bs.table check.bs.table check-all.bs.table uncheck-all.bs.table', function(e, rows) {
+        var datas = $.isArray(rows) ? rows : [ rows ]; // 点击时获取选中的行或取消选中的行
+        examine(e.type, datas); // 保存到全局 Array() 里
+    });
+</script>
+
+</html>

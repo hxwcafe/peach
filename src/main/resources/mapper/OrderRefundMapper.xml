@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.peach.dao.OrderRefundMapper">
+  <resultMap id="BaseResultMap" type="com.example.peach.pojo.OrderRefund">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="orderpay_id" jdbcType="INTEGER" property="orderpayId" />
+    <result column="orderacticity_id" jdbcType="INTEGER" property="orderacticityId" />
+    <result column="out_refund_no" jdbcType="VARCHAR" property="outRefundNo" />
+    <result column="refund_status" jdbcType="INTEGER" property="refundStatus" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="user_id" javaType="INTEGER" property="userId"/>
+  </resultMap>
+  <resultMap id="OrderRActPay" type="com.example.peach.pojo.merge.OrderRAct">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="orderpay_id" jdbcType="INTEGER" property="orderpayId" />
+    <result column="orderacticity_id" jdbcType="INTEGER" property="orderacticityId" />
+    <result column="out_refund_no" jdbcType="VARCHAR" property="outRefundNo" />
+    <result column="user_id" javaType="INTEGER" property="userId"/>
+    <result column="refund_status" jdbcType="INTEGER" property="refundStatus" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <collection property="user" ofType="com.example.peach.pojo.User">
+      <id column="user_id" jdbcType="INTEGER" property="id" />
+      <result column="user_nickname" jdbcType="VARCHAR" property="nickName" />
+      <result column="user_realname" jdbcType="VARCHAR" property="userRealname" />
+      <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+      <result column="user_phone" jdbcType="VARCHAR" property="userphone" />
+      <result column="user_age" jdbcType="INTEGER" property="userage" />
+      <result column="sex" jdbcType="INTEGER" property="gender" />
+      <result column="country" jdbcType="VARCHAR" property="country" />
+      <result column="province" jdbcType="VARCHAR" property="province" />
+      <result column="city" jdbcType="VARCHAR" property="city" />
+      <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+      <result column="user_autograph" jdbcType="VARCHAR" property="userAutograph" />
+      <result column="user_occupation" jdbcType="VARCHAR" property="userOccupation" />
+      <result column="is_marriage" jdbcType="BIT" property="isMarriage" />
+      <result column="user_height" jdbcType="INTEGER" property="userHeight" />
+      <result column="user_education" jdbcType="VARCHAR" property="userEducation" />
+      <result column="user_salary" jdbcType="VARCHAR" property="userSalary" />
+      <result column="user_interest" jdbcType="VARCHAR" property="userInterest" />
+      <result column="user_label" jdbcType="VARCHAR" property="userLabel" />
+      <result column="user_jurisdiction" jdbcType="INTEGER" property="userJurisdiction" />
+      <result column="user_idcard" jdbcType="CHAR" property="userIdcard" />
+      <result column="headimgurl" jdbcType="VARCHAR" property="avatarUrl" />
+      <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
+      <result column="openid" jdbcType="VARCHAR" property="openid" />
+      <result column="is_realname" jdbcType="BIT" property="isrealname" />
+      <result column="user_native" jdbcType="VARCHAR" property="usernative" />
+      <result column="unionid" jdbcType="VARCHAR" property="unionid" />
+      <result column="user_marrytime" jdbcType="VARCHAR" property="userMarrytime" />
+      <result column="user_newold" jdbcType="BIT" property="userNewold" />
+      <result column="user_tips" jdbcType="BIT" property="userTips" />
+      <result column="user_house" jdbcType="INTEGER" property="userHouse" />
+      <result column="user_car" jdbcType="INTEGER" property="userCar" />
+      <result column="user_praise" jdbcType="INTEGER" property="userPraise" />
+      <result column="user_blacklist" jdbcType="INTEGER" property="userBlacklist" />
+      <result column="user_createtime" property="userCreatetime"/>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, orderpay_id,orderacticity_id,out_refund_no,refund_status, status, create_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_refund
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_refund
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.peach.pojo.OrderRefund">
+    insert into order_refund
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderpayId != null">
+        orderpay_id,
+      </if>
+      <if test="orderacticityId != null">
+        orderacticity_id,
+      </if>
+      <if test="outRefundNo != null">
+        out_refund_no,
+      </if>
+      <if test="userId !=null" >
+        user_id
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderpayId != null">
+        #{orderpayId,jdbcType=INTEGER},
+      </if>
+      <if test="orderacticityId != null">
+        #{orderacticityId,jdbcType=INTEGER},
+      </if>
+      <if test="outRefundNo != null">
+        #{outRefundNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId !=null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.peach.pojo.OrderRefund">
+    insert into order_refund
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderpayId != null">
+        orderpay_id,
+      </if>
+      <if test="orderacticityId != null">
+        orderacticity_id,
+      </if>
+      <if test="userId !=null" >
+        user_id
+      </if>
+      <if test="refundStatus != null">
+        refund_status,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderacticityId != null">
+        #{orderacticityId,jdbcType=INTEGER},
+      </if>
+      <if test="userId !=null" >
+        user_id
+      </if>
+      <if test="refundStatus != null">
+        #{refund_status,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.peach.pojo.OrderRefund">
+    update order_refund
+    <set>
+      <if test="orderpayId != null">
+        orderpay_id = #{orderpayId,jdbcType=INTEGER},
+      </if>
+      <if test="orderacticityId != null">
+        orderacticity_id = #{orderacticityId,jdbcType=INTEGER},
+      </if>
+      <if test="outRefundNo != null">
+        out_refund_no = #{outRefundNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="refundStatus != null">
+        refund_status = #{refundStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      end_time = now(),
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.peach.pojo.OrderRefund">
+    update order_refund
+    set orderpay_id = #{orderpayId,jdbcType=INTEGER},
+     orderacticity_id = #{orderacticityId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectorderacticityId" parameterType="java.lang.Integer" resultMap="OrderRActPay">
+    select o.id as orderacticity_id,o.*,v.*
+    from order_activity as o,user_vip as v
+	where v.user_id = o.user_id and o.trade_status = "SUCCESS" and o.deposit_fee=50 and v.user_deposit&gt;=o.deposit_fee
+    and o.user_id = #{userId}
+  </select>
+  <select id="selectorderpayId" parameterType="java.lang.Integer" resultMap="OrderRActPay">
+    select o.id as orderpay_id
+    from order_pay as o
+	where o.trade_status = "SUCCESS" and o.total_fee=50
+    and o.user_id = #{userId}
+  </select>
+  <select id="selectOrderRAct" parameterType="com.example.peach.pojo.merge.OrderRAct" resultMap="OrderRActPay">
+    select refunt.*,u.*
+    from order_refund as refunt,user as u
+    where u.id = refunt.user_id order by create_time desc;
+  </select>
+  <select id="selectStatusByuseerId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from order_refund
+    where user_id = #{usesrId} and status = 0
+  </select>
+  <select id="selectallByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from order_refund
+    where status = 0
+  </select>
+</mapper>
